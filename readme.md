@@ -20,3 +20,9 @@ HTTP webserver running. Access it at: http://localhost/
 ```
 
 And should be able to visit the above linked URL to see the app in action
+
+### Accessing the database
+
+```
+docker-compose -f docker-compose.yml exec database psql -U deno_test -d deno_test_db
+```

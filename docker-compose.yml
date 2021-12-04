@@ -1,10 +1,26 @@
 version: "3.9"
 
 services:
+
+  database:
+    container_name: deno_test_database
+    image: postgres
+    environment:
+      - POSTGRES_USER=deno_test
+      - POSTGRES_PASSWORD=deno_test_pass
+      - POSTGRES_DB=deno_test_db
+    ports:
+      - "5432:5432"
+    user: 999:999
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+
   app:
     container_name: deno_test_app
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./docker/deno/Dockerfile
     ports:
       - "80:80"
+    depends_on:
+      - database
