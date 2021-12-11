@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS people (
-    ID SERIAL PRIMARY KEY NOT NULL,
-    NAME      TEXT        NOT NULL
+    id   SERIAL PRIMARY KEY NOT NULL,
+    name TEXT               NOT NULL
 );
