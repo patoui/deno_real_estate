@@ -47,4 +47,3 @@ export const router = new Router();
 
 router.add(new Route('GET', '^/$', new HomeHandler()));
 router.add(new Route('GET', '^/about$', new AboutHandler()));
-// router.add(new Route('GET', '^/db$', new DbHandler()));
