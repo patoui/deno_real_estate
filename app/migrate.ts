@@ -9,7 +9,7 @@ SELECT EXISTS(
 `
 
 // migration table does not exist, create it
-if (!(migrationsTableExists.rows[0][0] || false)) {
+if (!(migrationsTableExists.rows[0][0] ?? false)) {
     await client.queryArray`
     CREATE TABLE IF NOT EXISTS migrations (
         id   SERIAL PRIMARY KEY NOT NULL,
@@ -29,7 +29,7 @@ for await (const dirEntry of Deno.readDir('../migrations')) {
         );
 
         // file has not migrated yet, process it.
-        if (!(hasAlreadyMigrated.rows[0][0] || false)) {
+        if (!(hasAlreadyMigrated.rows[0][0] ?? false)) {
             const fileContent = await Deno.readTextFile("../migrations/" + dirEntry.name);
 
             console.log('STARTING MIGRATION: ' + dirEntry.name);
