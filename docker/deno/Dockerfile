@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["run", "--allow-net", "main.ts"]
+CMD ["run", "--allow-net", "--allow-read", "main.ts"]

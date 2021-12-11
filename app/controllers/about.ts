@@ -1,4 +1,4 @@
-import { RouteHandler } from "../routes.ts"
+import { RouteHandler } from "../../routes.ts"
 
 export default class AboutHandler implements RouteHandler {
     handle(request: Request): Response {

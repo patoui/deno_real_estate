@@ -1,6 +1,5 @@
-import HomeHandler from "./handlers/home.ts"
-import AboutHandler from "./handlers/about.ts"
-import DbHandler from "./handlers/db.ts"
+import HomeHandler from "./app/controllers/home.ts"
+import AboutHandler from "./app/controllers/about.ts"
 
 export interface RouteHandler {
     handle(request: Request): Response
@@ -48,4 +47,4 @@ export const router = new Router();
 
 router.add(new Route('GET', '^/$', new HomeHandler()));
 router.add(new Route('GET', '^/about$', new AboutHandler()));
-router.add(new Route('GET', '^/db$', new DbHandler()));
+// router.add(new Route('GET', '^/db$', new DbHandler()));
