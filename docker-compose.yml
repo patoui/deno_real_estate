@@ -19,7 +19,7 @@ services:
     container_name: deno_test_app
     build:
       context: .
-      dockerfile: ./docker/deno/Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
       - .:/app
     ports:
