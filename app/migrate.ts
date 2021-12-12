@@ -27,16 +27,19 @@ class PostgresMigrationRepository implements MigrationRepository
     createMigrationTable = async (): Promise<boolean> => {
         await this.client.queryArray`
         CREATE TABLE IF NOT EXISTS migrations (
-            id   SERIAL PRIMARY KEY NOT NULL,
-            name TEXT               NOT NULL
+            id     SERIAL PRIMARY KEY NOT NULL,
+            name   TEXT               NOT NULL,
+            ran_at TIMESTAMP          NOT NULL DEFAULT NOW()
         )
         `;
 
         return true;
     }
 
-    startTransaction = (): boolean => {
-        this.transaction = this.client.createTransaction("migration_transaction");
+    startTransaction = async (): Promise<boolean> => {
+        const newTransaction = this.client.createTransaction("migration_transaction");
+        await newTransaction.begin();
+        this.transaction = newTransaction;
 
         return true;
     }

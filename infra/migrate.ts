@@ -1,7 +1,7 @@
 export interface MigrationRepository {
     doesMigrationTableExists(): Promise<boolean>
     createMigrationTable(): Promise<boolean>
-    startTransaction(): boolean
+    startTransaction(): Promise<boolean>
     commitTransaction(): Promise<boolean>
     hasMigrationRan(migrationName: string): Promise<boolean>
     executeStatement(sql: string): Promise<boolean>
@@ -26,6 +26,8 @@ export class Migrate
             await this.migrationRepository.createMigrationTable();
         }
 
+        this.migrationRepository.startTransaction();
+
         for await (const dirEntry of Deno.readDir(this.migrationsDirectoryPath)) {
             if (dirEntry.isFile) {
                 const hasAlreadyMigrated = await this.migrationRepository.hasMigrationRan(dirEntry.name);
@@ -43,6 +45,8 @@ export class Migrate
                 }
             }
         }
+
+        this.migrationRepository.commitTransaction();
 
         console.log("FINISHED MIGRATIONS");
     }
