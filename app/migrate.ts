@@ -1,49 +1,83 @@
 import { client } from "./db.ts"
+import { MigrationRepository, Migrate } from "../infra/migrate.ts"
+import { Client } from "https://deno.land/x/postgres@v0.14.2/client.ts";
+import { Transaction } from "https://deno.land/x/postgres@v0.14.2/query/transaction.ts";
 
-const migrationsTableExists = await client.queryArray`
-SELECT EXISTS(
-    SELECT FROM pg_tables
-        WHERE schemaname = 'public'
-        AND tablename = 'migrations'
-);
-`
+class PostgresMigrationRepository implements MigrationRepository
+{
+    client: Client;
+    transaction?: Transaction
 
-// migration table does not exist, create it
-if (!(migrationsTableExists.rows[0][0] ?? false)) {
-    await client.queryArray`
-    CREATE TABLE IF NOT EXISTS migrations (
-        id   SERIAL PRIMARY KEY NOT NULL,
-        name TEXT               NOT NULL
-    )
-    `;
-}
-
-const transaction = client.createTransaction("migration_transaction");
-await transaction.begin();
-
-for await (const dirEntry of Deno.readDir('../migrations')) {
-    if (dirEntry.isFile) {
-        const hasAlreadyMigrated = await transaction.queryArray(
-            "SELECT EXISTS(SELECT FROM migrations WHERE name = $1)",
-            dirEntry.name
-        );
-
-        // file has not migrated yet, process it.
-        if (!(hasAlreadyMigrated.rows[0][0] ?? false)) {
-            const fileContent = await Deno.readTextFile("../migrations/" + dirEntry.name);
-
-            console.log('STARTING MIGRATION: ' + dirEntry.name);
-
-            await transaction.queryArray(fileContent);
-            await transaction.queryArray(
-                "INSERT INTO migrations (name) VALUES ($1)",
-                dirEntry.name
-            );
-
-            console.log('FINISHED MIGRATION: ' + dirEntry.name);
-        }
+    constructor(client: Client) {
+        this.client = client;
     }
 
+    doesMigrationTableExists = async (): Promise<boolean> => {
+        const migrationsTableExists = await this.client.queryArray`
+        SELECT EXISTS(
+            SELECT FROM pg_tables
+                WHERE schemaname = 'public'
+                AND tablename = 'migrations'
+        );
+        `
+
+        return Boolean(migrationsTableExists.rows[0][0] ?? false).valueOf();
+    }
+
+    createMigrationTable = async (): Promise<boolean> => {
+        await this.client.queryArray`
+        CREATE TABLE IF NOT EXISTS migrations (
+            id   SERIAL PRIMARY KEY NOT NULL,
+            name TEXT               NOT NULL
+        )
+        `;
+
+        return true;
+    }
+
+    startTransaction = (): boolean => {
+        this.transaction = this.client.createTransaction("migration_transaction");
+
+        return true;
+    }
+
+    commitTransaction = async (): Promise<boolean> => {
+        if (this.transaction) {
+            await this.transaction.commit();
+        }
+
+        return true;
+    }
+
+    hasMigrationRan = async (migrationName: string): Promise<boolean> => {
+        const hasAlreadyMigrated = await this.getExecutor().queryArray(
+            "SELECT EXISTS(SELECT FROM migrations WHERE name = $1)",
+            migrationName
+        );
+
+        return Boolean(hasAlreadyMigrated.rows[0][0] ?? false).valueOf();
+    }
+
+    executeStatement = async (sql: string): Promise<boolean> => {
+        await this.getExecutor().queryArray(sql);
+
+        return true;
+    }
+
+    markMigrationAsRun = async (migrationName: string): Promise<boolean> => {
+        await this.getExecutor().queryArray(
+            "INSERT INTO migrations (name) VALUES ($1)",
+            migrationName
+        );
+
+        return true;
+    }
+
+    private getExecutor = () => {
+        return this.transaction ?? this.client;
+    }
 }
 
-await transaction.commit();
+const migrator = new Migrate('./migrations', new PostgresMigrationRepository(client));
+
+migrator.run();
