@@ -19,6 +19,8 @@ export class Migrate
     }
 
     run = async () => {
+        console.log("STARTING MIGRATIONS...");
+
         if (!await this.migrationRepository.doesMigrationTableExists()) {
             // migration table does not exist, create it
             await this.migrationRepository.createMigrationTable();
@@ -41,5 +43,7 @@ export class Migrate
                 }
             }
         }
+
+        console.log("FINISHED MIGRATIONS");
     }
 }
