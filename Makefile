@@ -31,7 +31,7 @@ database:
 	docker-compose -f docker-compose.yml exec database psql -U deno_test -d deno_test_db
 
 migrate-create:
-	echo '' > migrations/`date +%Y_%m_%d_%H%M%S`_$(name).sql
+	echo '' > app/database/migrations/`date +%Y_%m_%d_%H%M%S`_$(name).sql
 
 migrate:
-	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net app/migrate.ts"
+	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net app/database/migrate.ts"
