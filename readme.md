@@ -3,14 +3,15 @@ Trying out [Deno](https://deno.land/)
 
 ## Requirements
 
-- Docker must be installed, instructions can be found [here](https://docs.docker.com/engine/install/)
+- [Docker](https://docs.docker.com/engine/install/)
+- [Make](https://www.tutorialspoint.com/unix_commands/make.htm) is installed (usually via `apt install build-essential`)
 
 ## Running the Application
 
 Simple run
 
 ```
-docker-compose up
+make start
 ```
 
 You should see the following message:
@@ -24,11 +25,11 @@ And should be able to visit the above linked URL to see the app in action
 ### Accessing the database
 
 ```
-docker-compose -f docker-compose.yml exec database psql -U deno_test -d deno_test_db
+make database
 ```
 
-### Running migrations
+### Running database migrations
 
 ```
-docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net app/migrate.ts"
+make migrate
 ```
