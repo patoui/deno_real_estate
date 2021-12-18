@@ -1,7 +1,5 @@
-import { RouteHandler } from "../../routes.ts"
+import { Context } from '../../deps.ts'
 
-export default class AboutHandler implements RouteHandler {
-    handle(_request: Request): Response {
-        return new Response("About page!", { status: 200 });
-    }
+export function homeHandler(ctx: Context) {
+    ctx.render("about");
 }

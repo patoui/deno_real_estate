@@ -1,5 +1,28 @@
-import { serve } from "./deps.ts";
-import { router } from "./routes.ts"
+import {
+  adapterFactory,
+  Application,
+  engineFactory,
+  Router,
+  viewEngine,
+} from "./deps.ts";
+import { homeHandler } from "./app/controllers/home.ts";
 
-console.log(`HTTP webserver running. Access it at: http://localhost/`);
-await serve(router.resolve, { addr: ":80" });
+const port = 80;
+const app = new Application();
+const router = new Router();
+
+const ejsEngine = engineFactory.getEjsEngine();
+const oakAdapter = adapterFactory.getOakAdapter();
+
+app.use(viewEngine(oakAdapter, ejsEngine, {
+  viewRoot: "./app/views",
+  viewExt: ".ejs"
+}));
+
+router.get("/home", homeHandler);
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen({ port });
+console.log(`Server is running on port ${port}`);
