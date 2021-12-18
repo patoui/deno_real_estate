@@ -7,6 +7,12 @@ import {
 } from "./deps.ts";
 import { homeHandler } from "./app/controllers/home.ts";
 import { aboutHandler } from "./app/controllers/about.ts";
+import {
+  authUserHandler,
+  createUserHandler,
+  signInUserHandler,
+  signUpUserHandler,
+} from "./app/controllers/auth.ts";
 
 const port = 80;
 const app = new Application();
@@ -17,22 +23,28 @@ const oakAdapter = adapterFactory.getOakAdapter();
 
 app.use(viewEngine(oakAdapter, ejsEngine, {
   viewRoot: "./app/views",
-  viewExt: ".ejs"
+  viewExt: ".ejs",
 }));
 
 router.get("/", homeHandler);
 router.get("/about", aboutHandler);
+
+// authentication
+router.get("/sign-up", signUpUserHandler);
+router.post("/sign-up", createUserHandler);
+router.get("/sign-in", signInUserHandler);
+router.post("/sign-in", authUserHandler);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
 // static content
 app.use(async (context, next) => {
-  const root = `${Deno.cwd()}/static`
+  const root = `${Deno.cwd()}/static`;
   try {
-      await context.send({ root })
+    await context.send({ root });
   } catch {
-      next()
+    next();
   }
 });
 
