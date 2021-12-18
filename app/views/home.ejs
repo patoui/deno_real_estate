@@ -1,5 +1,43 @@
 <%- include('_header.ejs', { title: 'Home' }) %>
 
-<h1>Hello <%=data.name%>!</h1>
+<%- include('_nav.ejs') %>
+
+<div class="container">
+    <div class="row pt-5 pb-3">
+        <div class="col">
+            <h1 class="text-center">Find your next home</h1>
+            <form>
+                <div class="d-flex mb-2">
+                    <input class="form-control me-2" type="search" placeholder="Search a city or neighborhood" aria-label="Search a city or neighborhood">
+                    <button class="btn bg-pink" type="submit">Search</button>
+                </div>
+                <div class="d-flex">
+                    <input class="form-control me-2" type="text" placeholder="Min Price" aria-label="Minimum Price">
+                    <input class="form-control me-2" type="text" placeholder="Max Price" aria-label="Maximum Price">
+                    <select class="form-select me-2" aria-label="Number of Bedrooms">
+                        <option selected>Beds</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                    <select class="form-select" aria-label="Number of Bathrooms">
+                        <option selected>Baths</option>
+                        <option value="1">1+</option>
+                        <option value="1.5">1.5+</option>
+                        <option value="2">2+</option>
+                        <option value="2.5">2.5+</option>
+                        <option value="3">3+</option>
+                        <option value="3.5">3.5+</option>
+                        <option value="4">4+</option>
+                        <option value="4.5">4.5+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <%- include('_footer.ejs') %>

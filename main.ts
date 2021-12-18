@@ -20,11 +20,21 @@ app.use(viewEngine(oakAdapter, ejsEngine, {
   viewExt: ".ejs"
 }));
 
-router.get("/home", homeHandler);
+router.get("/", homeHandler);
 router.get("/about", aboutHandler);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+// static content
+app.use(async (context, next) => {
+  const root = `${Deno.cwd()}/static`
+  try {
+      await context.send({ root })
+  } catch {
+      next()
+  }
+});
 
 app.listen({ port });
 console.log(`Server is running on port ${port}`);
