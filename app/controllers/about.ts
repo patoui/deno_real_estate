@@ -1,5 +1,5 @@
 import { Context } from '../../deps.ts'
 
-export function homeHandler(ctx: Context) {
+export function aboutHandler(ctx: Context) {
     ctx.render("about");
 }

@@ -6,6 +6,7 @@ import {
   viewEngine,
 } from "./deps.ts";
 import { homeHandler } from "./app/controllers/home.ts";
+import { aboutHandler } from "./app/controllers/about.ts";
 
 const port = 80;
 const app = new Application();
@@ -20,6 +21,7 @@ app.use(viewEngine(oakAdapter, ejsEngine, {
 }));
 
 router.get("/home", homeHandler);
+router.get("/about", aboutHandler);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
