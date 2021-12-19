@@ -1,19 +1,34 @@
-.bg-red {
-    background-color: #db5461;
-}
-
 .bg-pink {
-    background-color: #ffd9ce;
+    background-color: #FF698D;
 }
 
-.bg-purple {
-    background-color: #593c8f;
+.bg-orange {
+    background-color: #F8C34C;
 }
 
-.bg-teal {
-    background-color: #8ef9f3;
+.bg-pink-to-orange {
+    background: #F43462;
+    background: -webkit-linear-gradient(left, #FF698D, #F8C34C);
+    background: -moz-linear-gradient(left, #FF698D, #F8C34C);
+    background: linear-gradient(to right, #FF698D, #F8C34C);
 }
 
-.bg-blue {
-    background-color: #171738;
+.bg-home {
+    background-image: url('/img/house_bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.home-splash {
+    padding: 6rem 0 4rem 0!important;
+}
+
+.home-splash .btn-main {
+    min-width: 100px;
+}
+
+@media (min-width: 576px) {
+    .home-splash {
+        padding: 14rem 0!important;
+    }
 }
