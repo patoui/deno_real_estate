@@ -1,5 +1,6 @@
 import { Context } from '../../deps.ts'
 import { NewUser } from '../../domain/user.ts';
+import CreateUser from "../../domain/use_cases/create_user.ts";
 import UserRepository from '../repositories/user_repository.ts';
 
 export function signUpUserHandler(ctx: Context) {
@@ -27,25 +28,28 @@ export const createUserHandler = async (ctx: Context) => {
         return;
     }
 
+    if (!password) {
+        // TODO: add validation error message.
+        ctx.response.redirect("/sign-up");
+        return;
+    }
+
     if (password !== passwordConfirmation) {
         // TODO: add validation error message.
         ctx.response.redirect("/sign-up");
         return;
     }
 
-    // TODO: determine better way to pass dependencies into this function.
-    const userRepo = new UserRepository();
+    const createUserCase = new CreateUser(new UserRepository());
 
-    if (email && await userRepo.doesUserExists(email)) {
-        // TODO: add validation error message.
+    const status = await createUserCase.handle(
+        new NewUser(name, email, password)
+    );
+    if (!status.wasSuccessful()) {
+        // TODO: use status.getMessage to display the issue to the user.
+        console.log(status.getMessage());
         ctx.response.redirect("/sign-up");
         return;
-    }
-
-    // TODO: determine why TS won't recognize early exits making this if required...
-    if (name && email && password) {
-        const newUser = new NewUser(name, email, password);
-        await userRepo.createUser(newUser);
     }
 
     // TODO: validate successfully created user and redirect
