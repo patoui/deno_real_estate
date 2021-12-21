@@ -2,7 +2,14 @@ export {
   Application,
   Context,
   Router
-} from "https://deno.land/x/oak@v6.5.0/mod.ts";
+} from "https://deno.land/x/oak@v10.1.0/mod.ts";
+
+declare module "https://deno.land/x/oak@v10.1.0/mod.ts" {
+  interface Context {
+    // deno-lint-ignore ban-types
+    render: (fileName: string, data?: object) => void;
+  }
+}
 
 export {
   adapterFactory,
