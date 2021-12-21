@@ -1,4 +1,4 @@
-import { Context } from '../../deps.ts'
+import { Context, isEmail } from '../../deps.ts'
 import { NewUser } from '../../domain/user.ts';
 import CreateUser from "../../domain/use_cases/create_user.ts";
 import UserRepository from '../repositories/user_repository.ts';
@@ -14,45 +14,54 @@ export const createUserHandler = async (ctx: Context) => {
     const email = body.get('email');
     const password = body.get('password');
     const passwordConfirmation = body.get('password_confirmation');
+    const errors: { [key: string]: string|null } = {};
 
     if (!name) {
-        // TODO: add validation error message.
-        ctx.response.redirect("/sign-up");
-        return;
+        errors.name = 'Name field is required';
     }
 
-    //|| !isEmail(email)
+    // TODO: add better validation for email.
     if (!email) {
-        // TODO: add validation error message.
-        ctx.response.redirect("/sign-up");
-        return;
+        errors.email = 'Email field is required';
+    }
+
+    if (email && !isEmail(email)) {
+        errors.email = 'Must be valid email address';
     }
 
     if (!password) {
-        // TODO: add validation error message.
-        ctx.response.redirect("/sign-up");
-        return;
+        errors.password = 'Password field is required';
+    }
+
+    if (!passwordConfirmation) {
+        errors.passwordConfirmation = 'Password confirmation field is required';
     }
 
     if (password !== passwordConfirmation) {
-        // TODO: add validation error message.
-        ctx.response.redirect("/sign-up");
+        errors.passwordConfirmation = 'Password and confirmation do not match';
+    }
+
+    // Show errors on form
+    if (Object.keys(errors).length > 0) {
+        ctx.response.status = 302;
+        ctx.render('auth/sign_up', { errors });
         return;
     }
 
     const createUserCase = new CreateUser(new UserRepository());
 
-    const status = await createUserCase.handle(
-        new NewUser(name, email, password)
-    );
-    if (!status.wasSuccessful()) {
-        // TODO: use status.getMessage to display the issue to the user.
-        console.log(status.getMessage());
-        ctx.response.redirect("/sign-up");
-        return;
+    if (name && email && password) {
+        const status = await createUserCase.handle(
+            new NewUser(name, email, password)
+        );
+        if (!status.wasSuccessful()) {
+            errors.general = status.getMessage();
+            ctx.response.status = 302;
+            ctx.render('auth/sign_up', { errors });
+            return;
+        }
     }
 
-    // TODO: validate successfully created user and redirect
     ctx.response.redirect("/");
 }
 
