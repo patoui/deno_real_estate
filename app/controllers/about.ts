@@ -1,5 +1,6 @@
 import { Context } from '../../deps.ts'
+import view from './view.ts'
 
-export function aboutHandler(ctx: Context) {
-    ctx.render("about");
+export async function aboutHandler(ctx: Context) {
+    ctx.response.body = await view('about.eta', { name: "John" });
 }

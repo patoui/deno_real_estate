@@ -35,3 +35,6 @@ migrate-create:
 
 migrate:
 	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net app/database/migrate.ts"
+
+compile:
+	docker exec -it deno_test_app /bin/bash -c "deno compile --allow-net --allow-read -o main main.ts"

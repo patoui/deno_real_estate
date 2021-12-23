@@ -2,9 +2,10 @@ import { Context, isEmail } from '../../deps.ts'
 import { NewUser } from '../../domain/user.ts';
 import CreateUser from "../../domain/use_cases/create_user.ts";
 import UserRepository from '../repositories/user_repository.ts';
+import view from './view.ts'
 
-export function signUpUserHandler(ctx: Context) {
-    ctx.render("auth/sign_up");
+export async function signUpUserHandler(ctx: Context) {
+    ctx.response.body = await view('auth/sign_up.eta');
 }
 
 export const createUserHandler = async (ctx: Context) => {
@@ -44,7 +45,8 @@ export const createUserHandler = async (ctx: Context) => {
     // Show errors on form
     if (Object.keys(errors).length > 0) {
         ctx.response.status = 302;
-        ctx.render('auth/sign_up', { errors });
+        // ctx.render('auth/sign_up', { errors });
+        ctx.response.body = await view('auth/sign_up.eta', { errors });
         return;
     }
 
@@ -57,7 +59,7 @@ export const createUserHandler = async (ctx: Context) => {
         if (!status.wasSuccessful()) {
             errors.general = status.getMessage();
             ctx.response.status = 302;
-            ctx.render('auth/sign_up', { errors });
+            ctx.response.body = await view('auth/sign_up.eta', { errors });
             return;
         }
     }
@@ -65,8 +67,9 @@ export const createUserHandler = async (ctx: Context) => {
     ctx.response.redirect("/");
 }
 
-export function signInUserHandler(ctx: Context) {
-    ctx.render("auth/sign_in");
+export async function signInUserHandler(ctx: Context) {
+    ctx.response.body = await view('auth/sign_in.eta');
+    // ctx.render("auth/sign_in");
 }
 
 export function authUserHandler(ctx: Context) {

@@ -1,6 +1,4 @@
-<%- include('_header.ejs', { title: 'Home' }) %>
-
-<%- include('_nav.ejs') %>
+<% layout('./layout', { title: 'Home'} ) %>
 
 <div class="container-fluid bg-home home-splash">
     <div class="container">
@@ -51,5 +49,3 @@
         </div>
     </div>
 </div>
-
-<%- include('_footer.ejs') %>

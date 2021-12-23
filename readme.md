@@ -33,3 +33,9 @@ make database
 ```
 make migrate
 ```
+
+### Compiling to executable
+
+```
+make compile
+```

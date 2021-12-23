@@ -1,9 +1,7 @@
 import {
-  adapterFactory,
   Application,
-  engineFactory,
-  Router,
-  viewEngine,
+  configure,
+  Router
 } from "./deps.ts";
 import { homeHandler } from "./app/controllers/home.ts";
 import { aboutHandler } from "./app/controllers/about.ts";
@@ -14,17 +12,11 @@ import {
   signUpUserHandler,
 } from "./app/controllers/auth.ts";
 
-const port = 80;
+const port = 8080;
 const app = new Application();
 const router = new Router();
 
-const ejsEngine = engineFactory.getEjsEngine();
-const oakAdapter = adapterFactory.getOakAdapter();
-
-app.use(viewEngine(oakAdapter, ejsEngine, {
-  viewRoot: "./app/views",
-  viewExt: ".ejs",
-}));
+configure({ views: `${Deno.cwd()}/app/views/` });
 
 router.get("/", homeHandler);
 router.get("/about", aboutHandler);
