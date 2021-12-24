@@ -1,6 +1,4 @@
-import { delay } from "https://deno.land/std@0.119.0/async/delay.ts";
-import { format } from "https://deno.land/std@0.119.0/datetime/mod.ts";
-import { assert, assertEquals } from "https://deno.land/std@0.119.0/testing/asserts.ts";
+import { delay, format, assert } from "../../dev_deps.ts";
 import { NewUser, User, UserRepositoryInterface } from "../user.ts";
 import CreateUser from "./create_user.ts";
 
