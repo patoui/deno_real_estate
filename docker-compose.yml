@@ -15,6 +15,14 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  redis:
+    container_name: deno_test_redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    # networks:
+    #   - app-network
+
   app:
     container_name: deno_test_app
     build:
@@ -26,6 +34,7 @@ services:
       - "8080:8080"
     depends_on:
       - database
+      - redis
 
 volumes:
   pgdata:

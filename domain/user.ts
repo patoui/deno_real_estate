@@ -1,6 +1,7 @@
 export interface UserRepositoryInterface {
     doesUserExists(email: string): Promise<boolean>;
     createUser(newUser: NewUser): Promise<boolean>;
+    findUserByEmail(email: string): Promise<User|null>;
 }
 
 export class User {

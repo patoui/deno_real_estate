@@ -1,5 +1,5 @@
 import { client } from "../database/db.ts"
-import { NewUser, UserRepositoryInterface } from '../../domain/user.ts';
+import { User, NewUser, UserRepositoryInterface } from '../../domain/user.ts';
 
 // TODO: determine be way to fetch/use client, maybe pass into constructor?
 export default class UserRepository implements UserRepositoryInterface {
@@ -21,5 +21,28 @@ export default class UserRepository implements UserRepositoryInterface {
         );
 
         return true;
+    }
+
+    findUserByEmail = async (email: string): Promise<User|null> => {
+        const results = await client.queryObject<User>(
+            `SELECT id, name, email, created_at, last_accessed_at FROM users WHERE email = $1 LIMIT 1;`,
+            email
+        );
+
+        const user = results.rows[0] ?? null;
+
+        if (!user) {
+            return null;
+        }
+        console.log(user);
+        console.log(typeof user);
+
+        return new User(
+            user.id,
+            user.name,
+            user.email,
+            user.created_at,
+            user.last_accessed_at
+        );
     }
 }

@@ -10,12 +10,17 @@ help:
 	    @echo "CLIs"
 	    @echo ""
 	    @echo "server          - Access go container                             - ex: make server"
-	    @echo "database        - Access database (psql) CLI                      - ex: make database-cli"
+	    @echo "database        - Access database (psql) CLI                      - ex: make database"
+	    @echo "redis           - Access redis (redis-cli) CLI                    - ex: make redis"
 	    @echo ""
 	    @echo "DATABASE"
 	    @echo ""
 	    @echo "migrate         - Run up migrations                               - ex: make migrate-up"
 	    @echo "migrate-create  - Creates up and down migration files             - ex: migrate-create name=migration_name_here"
+	    @echo ""
+	    @echo "COMPILE"
+	    @echo ""
+	    @echo "compile         - Compile the application                         - ex: make compile"
 	    @echo ""
 
 start:
@@ -35,6 +40,9 @@ migrate-create:
 
 migrate:
 	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net app/database/migrate.ts"
+
+redis:
+	docker exec -it deno_test_redis redis-cli
 
 compile:
 	docker exec -it deno_test_app /bin/bash -c "deno compile --allow-net --allow-read -o main main.ts"

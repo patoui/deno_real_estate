@@ -5,13 +5,32 @@
         <div class="col-6">
             <h1 class="text-center">Sign In</h1>
             <form method="POST" action="/sign-in" class="pt-3">
+                <% if (typeof it.errors === 'object' && it.errors.general) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= it.errors.general %>
+                    </div>
+                <% } %>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                    <input name="email" type="email"
+                        class="form-control <%= typeof it.errors === 'object' && it.errors.email ? 'is-invalid' : '' %>"
+                        id="email" aria-describedby="emailHelp">
+                    <% if (typeof it.errors === 'object' && it.errors.email) { %>
+                        <div class="invalid-feedback">
+                            <%= it.errors.email %>
+                        </div>
+                    <% } %>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input name="password" type="password" class="form-control" id="password">
+                    <input name="password" type="password"
+                        class="form-control <%= typeof it.errors === 'object' && it.errors.password ? 'is-invalid' : '' %>"
+                        id="password">
+                    <% if (typeof it.errors === 'object' && it.errors.password) { %>
+                        <div class="invalid-feedback">
+                            <%= it.errors.password %>
+                        </div>
+                    <% } %>
                 </div>
                 <button type="submit" class="btn btn-primary">Sign In</button>
                 <a href="/sign-up" class="btn btn-link" title="Sign Up">Sign Up</a>
