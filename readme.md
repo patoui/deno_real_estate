@@ -14,13 +14,7 @@ Simple run
 make start
 ```
 
-You should see the following message:
-
-```
-HTTP webserver running. Access it at: http://localhost/
-```
-
-And should be able to visit the above linked URL to see the app in action
+when it finishes running, you should be able to access the application at http://0.0.0.0:8080
 
 ### Accessing the database
 
@@ -34,8 +28,12 @@ make database
 make migrate
 ```
 
-### Compiling to executable
+### Compiling and running to executable
+
+Run the following command to compile to an executable
 
 ```
 make compile
 ```
+
+once completed you'll should see `main` file which is the generated executable
