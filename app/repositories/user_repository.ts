@@ -34,8 +34,27 @@ export default class UserRepository implements UserRepositoryInterface {
         if (!user) {
             return null;
         }
-        console.log(user);
-        console.log(typeof user);
+
+        return new User(
+            user.id,
+            user.name,
+            user.email,
+            user.created_at,
+            user.last_accessed_at
+        );
+    }
+
+    findById = async (id: bigint): Promise<User|null> => {
+        const results = await client.queryObject<User>(
+            `SELECT id, name, email, created_at, last_accessed_at FROM users WHERE id = $1 LIMIT 1;`,
+            id
+        );
+
+        const user = results.rows[0] ?? null;
+
+        if (!user) {
+            return null;
+        }
 
         return new User(
             user.id,

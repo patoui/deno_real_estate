@@ -2,6 +2,7 @@ import { Context, isEmail } from '../../deps.ts'
 import { NewUser } from '../../domain/user.ts';
 import CreateUser from '../../domain/use_cases/create_user.ts';
 import LoginUser from '../../domain/use_cases/login_user.ts';
+import CookieRepository from "../repositories/cookie_repository.ts";
 import SessionRepository from '../repositories/session_repository.ts';
 import UserRepository from '../repositories/user_repository.ts';
 import view from './view.ts'
@@ -75,7 +76,10 @@ export const createUserHandler = async (ctx: Context) => {
             return;
         }
 
-        const loginUserCase = new LoginUser(new SessionRepository());
+        const loginUserCase = new LoginUser(
+            new SessionRepository(),
+            new CookieRepository(ctx.cookies)
+        );
         const loginStatus = await loginUserCase.handle(user);
 
         if (!loginStatus.wasSuccessful()) {
@@ -91,7 +95,6 @@ export const createUserHandler = async (ctx: Context) => {
 
 export async function signInUserHandler(ctx: Context) {
     ctx.response.body = await view('auth/sign_in.eta');
-    // ctx.render('auth/sign_in');
 }
 
 export async function authUserHandler(ctx: Context) {
@@ -116,7 +119,7 @@ export async function authUserHandler(ctx: Context) {
     // Show errors on form
     if (Object.keys(errors).length > 0) {
         ctx.response.status = 302;
-        ctx.response.body = await view('auth/sign_up.eta', { errors });
+        ctx.response.body = await view('auth/sign_in.eta', { errors });
         return;
     }
 
@@ -127,17 +130,20 @@ export async function authUserHandler(ctx: Context) {
         if (!user) {
             errors.general = 'Unable to find user';
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_up.eta', { errors });
+            ctx.response.body = await view('auth/sign_in.eta', { errors });
             return;
         }
 
-        const loginUserCase = new LoginUser(new SessionRepository());
+        const loginUserCase = new LoginUser(
+            new SessionRepository(),
+            new CookieRepository(ctx.cookies)
+        );
         const loginStatus = await loginUserCase.handle(user);
 
         if (!loginStatus.wasSuccessful()) {
             errors.general = loginStatus.getMessage();
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_up.eta', { errors });
+            ctx.response.body = await view('auth/sign_in.eta', { errors });
             return;
         }
     }

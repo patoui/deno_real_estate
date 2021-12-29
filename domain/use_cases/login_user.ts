@@ -1,23 +1,36 @@
 import { User } from '../../domain/user.ts';
-import { SessionRepositoryInterface } from '../../domain/session.ts';
-import { Status } from "./status.ts";
+import {
+  CookieStoreInterface,
+  SessionRepositoryInterface,
+} from '../../domain/session.ts';
+import { Status } from './status.ts';
 
 export default class LoginUser {
-    sessionRepository: SessionRepositoryInterface;
+  sessionRepository: SessionRepositoryInterface;
+  cookieStore: CookieStoreInterface;
 
-    constructor(sessionRepository: SessionRepositoryInterface) {
-        this.sessionRepository = sessionRepository;
+  constructor(
+    sessionRepository: SessionRepositoryInterface,
+    cookieStore: CookieStoreInterface,
+  ) {
+    this.sessionRepository = sessionRepository;
+    this.cookieStore = cookieStore;
+  }
+
+  handle = async (user: User): Promise<Status> => {
+    const sessionId = await this.sessionRepository.generateSessionId(user);
+    const createdSuccessfully = await this.sessionRepository.createSession(
+        sessionId,
+        user
+    );
+
+    if (!createdSuccessfully) {
+      return new Status(false, 'Unable to create session');
     }
 
-    handle = async (user: User): Promise<Status> => {
-        const createdSuccessfully = await this.sessionRepository.createSession(
-            String(user.id).valueOf()
-        );
+    // TODO: find better place for max age/expiry for cookie/session
+    this.cookieStore.set('user_session', sessionId, { maxAge: 3600 });
 
-        if (!createdSuccessfully) {
-            return new Status(false, 'Unable to create session');
-        }
-
-        return new Status(true);
-    }
+    return new Status(true);
+  };
 }
