@@ -5,6 +5,7 @@ import CreateUser from "./create_user.ts";
 class MockUserRepository implements UserRepositoryInterface {
     public data: User[] = [];
 
+    // deno-lint-ignore no-unused-vars
     findUserByEmail = async (email: string): Promise<User|null> => {
         await delay(1);
         return null;
