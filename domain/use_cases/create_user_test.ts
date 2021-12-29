@@ -5,6 +5,11 @@ import CreateUser from "./create_user.ts";
 class MockUserRepository implements UserRepositoryInterface {
     public data: User[] = [];
 
+    findUserByEmail = async (email: string): Promise<User|null> => {
+        await delay(1);
+        return null;
+    }
+
     doesUserExists = async (email: string): Promise<boolean> => {
         await delay(1);
         return Boolean(this.data.find(user => user.email = email)).valueOf();
