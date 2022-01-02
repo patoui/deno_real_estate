@@ -8,7 +8,7 @@ import UserRepository from '../repositories/user_repository.ts';
 import view from './view.ts'
 
 export async function signUpUserHandler(ctx: Context) {
-    ctx.response.body = await view('auth/sign_up.eta');
+    await view(ctx, 'auth/sign_up.eta');
 }
 
 export const createUserHandler = async (ctx: Context) => {
@@ -48,7 +48,7 @@ export const createUserHandler = async (ctx: Context) => {
     // Show errors on form
     if (Object.keys(errors).length > 0) {
         ctx.response.status = 302;
-        ctx.response.body = await view('auth/sign_up.eta', { errors });
+        await view(ctx, 'auth/sign_up.eta', { errors });
         return;
     }
 
@@ -63,7 +63,7 @@ export const createUserHandler = async (ctx: Context) => {
         if (!createUserStatus.wasSuccessful()) {
             errors.general = createUserStatus.getMessage();
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_up.eta', { errors });
+            await view(ctx, 'auth/sign_up.eta', { errors });
             return;
         }
 
@@ -72,7 +72,7 @@ export const createUserHandler = async (ctx: Context) => {
         if (!user) {
             errors.general = 'Unable to find user';
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_up.eta', { errors });
+            await view(ctx, 'auth/sign_up.eta', { errors });
             return;
         }
 
@@ -85,7 +85,7 @@ export const createUserHandler = async (ctx: Context) => {
         if (!loginStatus.wasSuccessful()) {
             errors.general = loginStatus.getMessage();
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_up.eta', { errors });
+            await view(ctx, 'auth/sign_up.eta', { errors });
             return;
         }
     }
@@ -94,7 +94,7 @@ export const createUserHandler = async (ctx: Context) => {
 }
 
 export async function signInUserHandler(ctx: Context) {
-    ctx.response.body = await view('auth/sign_in.eta');
+    await view(ctx, 'auth/sign_in.eta');
 }
 
 export async function authUserHandler(ctx: Context) {
@@ -119,7 +119,7 @@ export async function authUserHandler(ctx: Context) {
     // Show errors on form
     if (Object.keys(errors).length > 0) {
         ctx.response.status = 302;
-        ctx.response.body = await view('auth/sign_in.eta', { errors });
+        await view(ctx, 'auth/sign_in.eta', { errors });
         return;
     }
 
@@ -130,7 +130,7 @@ export async function authUserHandler(ctx: Context) {
         if (!user) {
             errors.general = 'Unable to find user';
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_in.eta', { errors });
+            await view(ctx, 'auth/sign_in.eta', { errors });
             return;
         }
 
@@ -143,7 +143,7 @@ export async function authUserHandler(ctx: Context) {
         if (!loginStatus.wasSuccessful()) {
             errors.general = loginStatus.getMessage();
             ctx.response.status = 302;
-            ctx.response.body = await view('auth/sign_in.eta', { errors });
+            await view(ctx, 'auth/sign_in.eta', { errors });
             return;
         }
     }
