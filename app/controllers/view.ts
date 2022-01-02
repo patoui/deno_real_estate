@@ -9,7 +9,14 @@ class ViewResource implements ResponseInterface {
   constructor(body: string, status: number, headers: Headers | null = null) {
     this.body = body;
     this.status = status;
-    this.headers = headers;
+
+    if (headers === null) {
+        const htmlHeaders = new Headers();
+        htmlHeaders.set('Content-Type', 'text/html');
+        this.headers = htmlHeaders;
+    } else {
+        this.headers = headers;
+    }
   }
 
   getResponseBody = async (): Promise<string> => {
