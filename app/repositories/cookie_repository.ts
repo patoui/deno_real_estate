@@ -13,7 +13,15 @@ export default class CookieRepository implements CookieStoreInterface {
     this.cookies.set(key, String(value).valueOf(), config || {});
   }
 
-  get(key: string): Promise<unknown> {
-    return this.cookies.get(key);
+  async get(key: string): Promise<string> {
+    return String(await this.cookies.get(key)).valueOf();
+  }
+
+  async destroy(key: string): Promise<boolean> {
+    const expiryDate = new Date();
+    // set expiry to time in the passed to force expiry
+    expiryDate.setHours(expiryDate.getHours() - 1);
+    await this.cookies.set(key, '', { expires: expiryDate });
+    return true;
   }
 }

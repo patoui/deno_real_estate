@@ -6,29 +6,30 @@ import {
 } from "../session.ts";
 import { User } from "../user.ts";
 import LoginUser from "./login_user.ts";
+import LogoutUser from "./logout_user.ts";
 
 class MockSessionRepository implements SessionRepositoryInterface {
   public data: { [k: string]: boolean } = {};
 
   generateSessionId = async (user: User): Promise<string> => {
     await delay(1);
-    return String(user.id).valueOf();
+    return "user_" + String(user.id).valueOf();
   };
 
   doesSessionExists = async (sessionId: string): Promise<boolean> => {
     await delay(1);
-    return this.data[`user_${sessionId}`] ?? false;
+    return this.data[sessionId] ?? false;
   };
 
   createSession = async (sessionId: string): Promise<boolean> => {
     await delay(1);
-    this.data[`user_${sessionId}`] = true;
+    this.data[sessionId] = true;
     return true;
   };
 
   destroySession = async (sessionId: string): Promise<boolean> => {
     await delay(1);
-    delete this.data[`user_${sessionId}`];
+    delete this.data[sessionId];
     return true;
   };
 }
@@ -51,14 +52,18 @@ class MockCookieRepository implements CookieStoreInterface {
     await delay(1);
     delete this.data[key];
     return true;
-  }
+  };
 }
 
-Deno.test("Login User", async () => {
+Deno.test("Logout User", async () => {
   // Arrange
   const mockSessionRepository = new MockSessionRepository();
   const mockCookieRepository = new MockCookieRepository();
   const loginUserCase = new LoginUser(
+    mockSessionRepository,
+    mockCookieRepository,
+  );
+  const logoutUserCase = new LogoutUser(
     mockSessionRepository,
     mockCookieRepository,
   );
@@ -70,23 +75,25 @@ Deno.test("Login User", async () => {
     now,
     now,
   );
+  await loginUserCase.handle(user);
 
   // Pre-assert
-  // user should not exists at this point
+  // user should exists at this point
+  // TODO: fix it, it's pulling from cookie store for the session id, likely doesn't match.
   assert(
-    !await mockSessionRepository.doesSessionExists(
-      String(user.id).valueOf(),
+    await mockSessionRepository.doesSessionExists(
+      "user_" + String(user.id).valueOf(),
     ),
   );
 
   // Act
-  await loginUserCase.handle(user);
+  await logoutUserCase.handle();
 
   // Assert
   // verify user has been created and exist
   assert(
-    await mockSessionRepository.doesSessionExists(
-      String(user.id).valueOf(),
+    !await mockSessionRepository.doesSessionExists(
+      "user_" + String(user.id).valueOf(),
     ),
   );
 });

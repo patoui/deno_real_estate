@@ -35,4 +35,9 @@ export default class SessionRepository implements SessionRepositoryInterface {
         await redis.set(sessionId, JSON.stringify(user), {ex: 3600});
         return Boolean(await redis.get(sessionId)).valueOf();
     }
+
+    destroySession = async (sessionId: string): Promise<boolean> => {
+        await redis.del(sessionId);
+        return Boolean(await redis.get(sessionId)).valueOf();
+    }
 }

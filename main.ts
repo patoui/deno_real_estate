@@ -9,6 +9,7 @@ import {
   authUserHandler,
   createUserHandler,
   signInUserHandler,
+  signOutUserHandler,
   signUpUserHandler,
 } from './app/controllers/auth.ts';
 import SessionRepository from "./app/repositories/session_repository.ts";
@@ -27,6 +28,7 @@ router.get('/sign-up', signUpUserHandler);
 router.post('/sign-up', createUserHandler);
 router.get('/sign-in', signInUserHandler);
 router.post('/sign-in', authUserHandler);
+router.get('/sign-out', signOutUserHandler);
 
 app.use(async (context, next) => {
   const userSessionId = await context.cookies.get('user_session');

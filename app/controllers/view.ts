@@ -35,10 +35,10 @@ class ViewResource implements ResponseInterface {
 export default async function view(
   ctx: Context,
   template: string,
-  // deno-lint-ignore ban-types
-  data: object = {},
+  data: { [key: string]: unknown } = {},
   status = 200,
 ): Promise<void> {
+  data.user ??= (ctx.state.user ?? null);
   const content = await renderFile(template, data);
   if (content) {
     resource(ctx, new ViewResource(content, status));

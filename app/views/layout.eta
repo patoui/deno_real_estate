@@ -23,7 +23,7 @@
     <div class="d-flex ms-auto">
         <ul class="navbar-nav me-auto mb-0">
             <li class="nav-item">
-            <a class="nav-link" href="/sign-in">Sign In</a>
+            <a class="nav-link" href="<%= it.user ? '/sign-out' : '/sign-in' %>"><%= it.user ? 'Sign Out' : 'Sign In' %></a>
             </li>
         </ul>
     </div>
