@@ -6,6 +6,8 @@ import LogoutUser from '../../domain/use_cases/logout_user.ts';
 import CookieRepository from "../repositories/cookie_repository.ts";
 import SessionRepository from '../repositories/session_repository.ts';
 import UserRepository from '../repositories/user_repository.ts';
+import Required from "../services/rules/required.ts";
+import Validator from "../services/validator.ts";
 import view from './view.ts'
 
 export async function signUpUserHandler(ctx: Context) {
@@ -15,63 +17,51 @@ export async function signUpUserHandler(ctx: Context) {
 export const createUserHandler = async (ctx: Context) => {
     const body = await ctx.request.body({ type: 'form'}).value;
 
-    const name = body.get('name');
-    const email = body.get('email');
-    const password = body.get('password');
-    const passwordConfirmation = body.get('password_confirmation');
-    const errors: { [key: string]: string|null } = {};
+    const data = {
+        name: body.get('name'),
+        email: body.get('email'),
+        password: body.get('password'),
+        passwordConfirmation: body.get('password_confirmation'),
+    };
+    let errors: { [key: string]: string[] } = {};
 
-    if (!name) {
-        errors.name = 'Name field is required';
-    }
+    const validator = new Validator(
+        {
+            name: [new Required()],
+            email: [new Required()],
+            password: [new Required()],
+            password_confirmation: [new Required()],
+        },
+        data
+    );
 
-    // TODO: add better validation for email.
-    if (!email) {
-        errors.email = 'Email field is required';
-    }
-
-    if (email && !isEmail(email)) {
-        errors.email = 'Must be valid email address';
-    }
-
-    if (!password) {
-        errors.password = 'Password field is required';
-    }
-
-    if (!passwordConfirmation) {
-        errors.passwordConfirmation = 'Password confirmation field is required';
-    }
-
-    if (password !== passwordConfirmation) {
-        errors.passwordConfirmation = 'Password and confirmation do not match';
-    }
-
-    // Show errors on form
-    if (Object.keys(errors).length > 0) {
+    if (!validator.validate()) {
+        // Show errors on form
+        errors = validator.getErrors();
         ctx.response.status = 302;
         await view(ctx, 'auth/sign_up.eta', { errors });
         return;
     }
 
-    if (name && email && password) {
+    if (data.name && data.email && data.password) {
         const userRepository = new UserRepository();
         const createUserCase = new CreateUser(userRepository);
 
         const createUserStatus = await createUserCase.handle(
-            new NewUser(name, email, password)
+            new NewUser(data.name, data.email, data.password)
         );
 
         if (!createUserStatus.wasSuccessful()) {
-            errors.general = createUserStatus.getMessage();
+            errors.general = [createUserStatus.getMessage()];
             ctx.response.status = 302;
             await view(ctx, 'auth/sign_up.eta', { errors });
             return;
         }
 
-        const user = await userRepository.findUserByEmail(email);
+        const user = await userRepository.findUserByEmail(data.email);
 
         if (!user) {
-            errors.general = 'Unable to find user';
+            errors.general = ['Unable to find user'];
             ctx.response.status = 302;
             await view(ctx, 'auth/sign_up.eta', { errors });
             return;
@@ -84,7 +74,7 @@ export const createUserHandler = async (ctx: Context) => {
         const loginStatus = await loginUserCase.handle(user);
 
         if (!loginStatus.wasSuccessful()) {
-            errors.general = loginStatus.getMessage();
+            errors.general = [loginStatus.getMessage()];
             ctx.response.status = 302;
             await view(ctx, 'auth/sign_up.eta', { errors });
             return;
@@ -101,35 +91,34 @@ export async function signInUserHandler(ctx: Context) {
 export async function authUserHandler(ctx: Context) {
     const body = await ctx.request.body({ type: 'form'}).value;
 
-    const email = body.get('email');
-    const password = body.get('password');
-    const errors: { [key: string]: string|null } = {};
+    const data = {
+        email: body.get('email'),
+        password: body.get('password'),
+    };
+    let errors: { [key: string]: string[] } = {};
 
-    if (!email) {
-        errors.email = 'Email field is required';
-    }
+    const validator = new Validator(
+        {
+            email: [new Required()],
+            password: [new Required()],
+        },
+        data
+    );
 
-    if (email && !isEmail(email)) {
-        errors.email = 'Must be valid email address';
-    }
-
-    if (!password) {
-        errors.password = 'Password field is required';
-    }
-
-    // Show errors on form
-    if (Object.keys(errors).length > 0) {
+    if (!validator.validate()) {
+        // Show errors on form
+        errors = validator.getErrors();
         ctx.response.status = 302;
         await view(ctx, 'auth/sign_in.eta', { errors });
         return;
     }
 
-    if (email && password) {
+    if (data.email && data.password) {
         const userRepository = new UserRepository();
-        const user = await userRepository.findUserByEmail(email);
+        const user = await userRepository.findUserByEmail(data.email);
 
         if (!user) {
-            errors.general = 'Unable to find user';
+            errors.general = ['Unable to find user'];
             ctx.response.status = 302;
             await view(ctx, 'auth/sign_in.eta', { errors });
             return;
@@ -142,7 +131,7 @@ export async function authUserHandler(ctx: Context) {
         const loginStatus = await loginUserCase.handle(user);
 
         if (!loginStatus.wasSuccessful()) {
-            errors.general = loginStatus.getMessage();
+            errors.general = [loginStatus.getMessage()];
             ctx.response.status = 302;
             await view(ctx, 'auth/sign_in.eta', { errors });
             return;
