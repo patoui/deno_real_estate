@@ -1,4 +1,4 @@
-import { Context, isEmail } from '../../deps.ts'
+import { Context } from '../../deps.ts'
 import { NewUser } from '../../domain/user.ts';
 import CreateUser from '../../domain/use_cases/create_user.ts';
 import LoginUser from '../../domain/use_cases/login_user.ts';
@@ -8,7 +8,7 @@ import SessionRepository from '../repositories/session_repository.ts';
 import UserRepository from '../repositories/user_repository.ts';
 import Required from "../services/rules/required.ts";
 import Validator from "../services/validator.ts";
-import view from './view.ts'
+import view from './helpers/view.ts'
 
 export async function signUpUserHandler(ctx: Context) {
     await view(ctx, 'auth/sign_up.eta');
