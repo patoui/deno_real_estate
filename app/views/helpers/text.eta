@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <label for="<%= it.field %>" class="form-label"><%= it.label %></label>
+    <input name="<%= it.field %>" type="text"
+        class="form-control <%= typeof it.errors === 'object' && it.errors[it.field] ? 'is-invalid' : '' %>"
+        id="<%= it.field %>">
+    <% if (typeof it.errors === 'object' && it.errors[it.field]) { %>
+        <div class="invalid-feedback">
+            <% it.errors[it.field].forEach(function (message) { %>
+                <%= message %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>

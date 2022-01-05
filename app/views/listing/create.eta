@@ -1,0 +1,42 @@
+<% layout('../layout', { title: 'Create Listing'} ) %>
+
+<div class="container">
+    <div class="row justify-content-center pt-5">
+        <div class="col-6">
+            <h1 class="text-center">Create Listing</h1>
+            <form method="POST" action="/listing" class="pt-3 pb-3">
+                <% if (typeof it.errors === 'object' && it.errors.general) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <% it.errors.general.forEach(function (message) { %>
+                            <%= message %>
+                        <% }) %>
+                    </div>
+                <% } %>
+                <%~ includeFile('../helpers/text', { field: 'mls_number', label: 'MLS Number' }) %>
+                <%~ includeFile('../helpers/text', { field: 'price', label: 'Price' }) %>
+                <%~ includeFile('../helpers/text', { field: 'name', label: 'Name' }) %>
+                <%~ includeFile('../helpers/text', { field: 'description', label: 'Description' }) %>
+                <%~ includeFile('../helpers/text', { field: 'address', label: 'Address' }) %>
+                <%~ includeFile('../helpers/text', { field: 'address_2', label: 'Address 2' }) %>
+                <%~ includeFile('../helpers/text', { field: 'postal_code', label: 'Postal Code' }) %>
+                <%~ includeFile('../helpers/text', { field: 'city', label: 'City' }) %>
+                <%~ includeFile('../helpers/text', { field: 'province', label: 'Province' }) %>
+                <%~ includeFile('../helpers/text', { field: 'country', label: 'Country' }) %>
+                <!-- change to select field -->
+                <%~ includeFile('../helpers/text', { field: 'bedrooms', label: 'Bedrooms' }) %>
+                <!-- change to select field -->
+                <%~ includeFile('../helpers/text', { field: 'bathrooms', label: 'Bathrooms' }) %>
+                <%~ includeFile('../helpers/text', { field: 'property_type', label: 'Property Type' }) %>
+                <%~ includeFile('../helpers/text', { field: 'house_type', label: 'House Type' }) %>
+                <!-- change to number field -->
+                <%~ includeFile('../helpers/text', { field: 'stories', label: 'Stories' }) %>
+                <%~ includeFile('../helpers/text', { field: 'title', label: 'Title' }) %>
+                <!-- change to number field -->
+                <%~ includeFile('../helpers/text', { field: 'build_year', label: 'Build Year' }) %>
+                <%~ includeFile('../helpers/text', { field: 'parking_type', label: 'Parking Type' }) %>
+                <!-- add checkbox for "Should Publish" -->
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>

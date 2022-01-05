@@ -10,6 +10,7 @@ import {
 } from "./app/http/controllers/auth.ts";
 import { authed } from "./app/http/middleware/authed.ts";
 import { staticFiles } from "./app/http/middleware/static.ts";
+import { showCreateListingHandler, createListingHandler } from "./app/http/controllers/listing.ts";
 
 const port = 8080;
 const app = new Application();
@@ -26,6 +27,10 @@ router.post("/sign-up", createUserHandler);
 router.get("/sign-in", signInUserHandler);
 router.post("/sign-in", authUserHandler);
 router.get("/sign-out", signOutUserHandler);
+
+// listing
+router.get("/listing/create", showCreateListingHandler);
+router.post("/listing", createListingHandler);
 
 app.use(authed);
 app.use(router.routes());

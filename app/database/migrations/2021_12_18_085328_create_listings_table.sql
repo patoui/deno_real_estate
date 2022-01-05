@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS listings (
     address VARCHAR(255) NOT NULL,
     address_2 VARCHAR(50) NOT NULL,
     postal_code VARCHAR(6) NOT NULL,
+    city VARCHAR(100) NOT NULL,
     province VARCHAR(30) NOT NULL,
     country VARCHAR(30) NOT NULL,
     bedrooms SMALLINT NOT NULL,
@@ -22,6 +23,5 @@ CREATE TABLE IF NOT EXISTS listings (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
--- TODO: add listing_media which includes links to: images, videos, brochures, etc
 -- TODO: add listing_features which includes: appliances, heat/ac source, utilities, etc
 -- TODO: add listing_rooms which includes: which floor the room is on, room name, dimensions, etc
