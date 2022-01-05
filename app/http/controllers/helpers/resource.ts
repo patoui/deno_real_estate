@@ -1,4 +1,4 @@
-import { Context } from '../../../deps.ts'
+import { Context } from '../../../../deps.ts'
 
 export interface ResponseInterface {
     getResponseBody(): Promise<string>;

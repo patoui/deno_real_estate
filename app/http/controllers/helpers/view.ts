@@ -1,4 +1,4 @@
-import { Context, renderFile } from "../../../deps.ts";
+import { Context, renderFile } from "../../../../deps.ts";
 import resource, { ResponseInterface } from "./resource.ts";
 
 class ViewResource implements ResponseInterface {
