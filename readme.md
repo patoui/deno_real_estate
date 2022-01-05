@@ -1,5 +1,5 @@
-# Deno Test
-Trying out [Deno](https://deno.land/)
+# Deno Real Estate
+Trying out [Deno](https://deno.land/) by building a real estate website.
 
 ## Requirements
 
