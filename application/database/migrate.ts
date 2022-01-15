@@ -1,5 +1,5 @@
 import { client } from "./db.ts"
-import { MigrationRepository, Migrate } from "../../infra/migrate.ts"
+import { MigrationRepository, Migrate } from "../../infrastructure/migrate.ts"
 import { Client } from "https://deno.land/x/postgres@v0.14.2/client.ts";
 import { Transaction } from "https://deno.land/x/postgres@v0.14.2/query/transaction.ts";
 
@@ -81,6 +81,6 @@ class PostgresMigrationRepository implements MigrationRepository
     }
 }
 
-const migrator = new Migrate('./app/database/migrations', new PostgresMigrationRepository(client));
+const migrator = new Migrate('./application/database/migrations', new PostgresMigrationRepository(client));
 
 migrator.run();

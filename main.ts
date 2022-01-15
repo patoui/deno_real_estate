@@ -1,22 +1,22 @@
 import { Application, configure, Router } from "./deps.ts";
-import { homeHandler } from "./app/http/controllers/home.ts";
-import { aboutHandler } from "./app/http/controllers/about.ts";
+import { homeHandler } from "./application/http/controllers/home.ts";
+import { aboutHandler } from "./application/http/controllers/about.ts";
 import {
   authUserHandler,
   createUserHandler,
   signInUserHandler,
   signOutUserHandler,
   signUpUserHandler,
-} from "./app/http/controllers/auth.ts";
-import { authed } from "./app/http/middleware/authed.ts";
-import { staticFiles } from "./app/http/middleware/static.ts";
-import { showCreateListingHandler, createListingHandler } from "./app/http/controllers/listing.ts";
+} from "./application/http/controllers/auth.ts";
+import { authed } from "./application/http/middleware/authed.ts";
+import { staticFiles } from "./application/http/middleware/static.ts";
+import { showCreateListingHandler, createListingHandler } from "./application/http/controllers/listing.ts";
 
 const port = 8080;
 const app = new Application();
 const router = new Router();
 
-configure({ views: `${Deno.cwd()}/app/views/` });
+configure({ views: `${Deno.cwd()}/application/views/` });
 
 router.get("/", homeHandler);
 router.get("/about", aboutHandler);
