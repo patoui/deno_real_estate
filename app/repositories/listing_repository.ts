@@ -28,7 +28,7 @@ export default class ListingRepository implements ListingRepositoryInterface {
 
     const listingExists = await client.queryArray(
       `SELECT EXISTS(${sql} LIMIT 1);`,
-      ...bindings,
+      bindings,
     );
 
     return Boolean(listingExists.rows[0][0] ?? false).valueOf();
@@ -57,25 +57,27 @@ export default class ListingRepository implements ListingRepositoryInterface {
                 build_year,
                 parking_type
             ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)`,
-      newListing.user_id,
-      newListing.mls_number,
-      newListing.price,
-      newListing.name,
-      newListing.description,
-      newListing.address,
-      newListing.address_2,
-      newListing.postal_code,
-      newListing.city,
-      newListing.province,
-      newListing.country,
-      newListing.bedrooms,
-      newListing.bathrooms,
-      newListing.property_type,
-      newListing.house_type,
-      newListing.stories,
-      newListing.title,
-      newListing.build_year,
-      newListing.parking_type,
+            [
+              newListing.user_id,
+              newListing.mls_number,
+              newListing.price,
+              newListing.name,
+              newListing.description,
+              newListing.address,
+              newListing.address_2,
+              newListing.postal_code,
+              newListing.city,
+              newListing.province,
+              newListing.country,
+              newListing.bedrooms,
+              newListing.bathrooms,
+              newListing.property_type,
+              newListing.house_type,
+              newListing.stories,
+              newListing.title,
+              newListing.build_year,
+              newListing.parking_type,
+            ]
     );
 
     return true;

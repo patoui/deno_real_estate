@@ -6,7 +6,7 @@ export default class UserRepository implements UserRepositoryInterface {
     doesUserExists = async (email: string): Promise<boolean> => {
         const emailExists = await client.queryArray(
             `SELECT EXISTS(SELECT FROM users WHERE email = $1 LIMIT 1);`,
-            email
+            [email]
         );
         return Boolean(emailExists.rows[0][0] ?? false).valueOf();
     }
@@ -15,9 +15,11 @@ export default class UserRepository implements UserRepositoryInterface {
         // TODO: add password hashing.
         await client.queryArray(
             "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
-            newUser.name,
-            newUser.email,
-            newUser.password
+            [
+                newUser.name,
+                newUser.email,
+                newUser.password
+            ]
         );
 
         return true;
@@ -26,7 +28,7 @@ export default class UserRepository implements UserRepositoryInterface {
     findUserByEmail = async (email: string): Promise<User|null> => {
         const results = await client.queryObject<User>(
             `SELECT id, name, email, created_at, last_accessed_at FROM users WHERE email = $1 LIMIT 1;`,
-            email
+            [email]
         );
 
         const user = results.rows[0] ?? null;
@@ -47,7 +49,7 @@ export default class UserRepository implements UserRepositoryInterface {
     findById = async (id: bigint): Promise<User|null> => {
         const results = await client.queryObject<User>(
             `SELECT id, name, email, created_at, last_accessed_at FROM users WHERE id = $1 LIMIT 1;`,
-            id
+            [id]
         );
 
         const user = results.rows[0] ?? null;

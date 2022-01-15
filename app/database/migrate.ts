@@ -55,7 +55,7 @@ class PostgresMigrationRepository implements MigrationRepository
     hasMigrationRan = async (migrationName: string): Promise<boolean> => {
         const hasAlreadyMigrated = await this.getExecutor().queryArray(
             "SELECT EXISTS(SELECT FROM migrations WHERE name = $1)",
-            migrationName
+            [migrationName]
         );
 
         return Boolean(hasAlreadyMigrated.rows[0][0] ?? false).valueOf();
@@ -70,7 +70,7 @@ class PostgresMigrationRepository implements MigrationRepository
     markMigrationAsRun = async (migrationName: string): Promise<boolean> => {
         await this.getExecutor().queryArray(
             "INSERT INTO migrations (name) VALUES ($1)",
-            migrationName
+            [migrationName]
         );
 
         return true;
