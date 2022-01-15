@@ -9,12 +9,24 @@ import Validator from "../../services/validator.ts";
 import view from "./helpers/view.ts";
 
 export async function showCreateListingHandler(ctx: Context) {
-  // TODO: add check for authenticated user
+  const authedUser = ctx.state.user ?? null;
+  if (!authedUser) {
+    ctx.response.status = 401;
+    await view(ctx, "errors/401.eta");
+    return;
+  }
+
   await view(ctx, "listing/create.eta");
 }
 
 export const createListingHandler = async (ctx: Context) => {
-  // TODO: add check for authenticated user
+  const authedUser = ctx.state.user ?? null;
+  if (!authedUser) {
+    ctx.response.status = 401;
+    await view(ctx, "errors/401.eta");
+    return;
+  }
+
   const body = await ctx.request.body({ type: "form" }).value;
 
   const data = {
