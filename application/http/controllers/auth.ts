@@ -21,7 +21,7 @@ export const createUserHandler = async (ctx: Context) => {
     name: body.get("name"),
     email: body.get("email"),
     password: body.get("password"),
-    passwordConfirmation: body.get("password_confirmation"),
+    password_confirmation: body.get("password_confirmation"),
   };
   let errors: { [key: string]: string[] } = {};
 

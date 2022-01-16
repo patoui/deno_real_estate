@@ -1,5 +1,6 @@
 import { client } from "../database/db.ts"
 import { User, NewUser, UserRepositoryInterface } from '../../domain/user.ts';
+import Hasher from "../services/hasher.ts";
 
 // TODO: determine be way to fetch/use client, maybe pass into constructor?
 export default class UserRepository implements UserRepositoryInterface {
@@ -12,13 +13,12 @@ export default class UserRepository implements UserRepositoryInterface {
     }
 
     createUser = async (newUser: NewUser): Promise<boolean> => {
-        // TODO: add password hashing.
         await client.queryArray(
             "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
             [
                 newUser.name,
                 newUser.email,
-                newUser.password
+                await (new Hasher()).hash(newUser.password)
             ]
         );
 
