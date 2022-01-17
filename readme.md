@@ -8,7 +8,7 @@ Trying out [Deno](https://deno.land/) by building a real estate website.
 
 ## Running the Application
 
-Simple run
+Copy `.env.example` to `.env` and replace with your own values (default values work with Docker), then simply run:
 
 ```
 make start

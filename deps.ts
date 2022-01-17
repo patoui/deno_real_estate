@@ -13,3 +13,8 @@ export { connect as redisConnect } from 'https://deno.land/x/redis@v0.25.0/mod.t
 export { crypto } from "https://deno.land/std@0.119.0/crypto/mod.ts";
 
 export { format } from "https://deno.land/std@0.119.0/datetime/mod.ts";
+
+export { config } from "https://deno.land/x/dotenv/mod.ts";
+
+export { Client } from "https://deno.land/x/postgres/mod.ts";
+export { Transaction } from "https://deno.land/x/postgres/query/transaction.ts";

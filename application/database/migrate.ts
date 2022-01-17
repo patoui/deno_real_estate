@@ -1,7 +1,6 @@
 import { client } from "./db.ts"
 import { MigrationRepository, Migrate } from "../../infrastructure/migrate.ts"
-import { Client } from "https://deno.land/x/postgres/client.ts";
-import { Transaction } from "https://deno.land/x/postgres/query/transaction.ts";
+import { Client, Transaction } from "../../deps.ts"
 
 class PostgresMigrationRepository implements MigrationRepository
 {

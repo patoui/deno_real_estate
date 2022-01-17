@@ -1,11 +1,12 @@
-import { Client } from "https://deno.land/x/postgres/mod.ts";
+import { Client, config } from "../../deps.ts"
 
+const cfg = config();
 export const client = new Client({
-  user: "deno_test",
-  password: "deno_test_pass",
-  database: "deno_test_db",
-  hostname: "database",
-  port: 5432,
+  user: cfg.DB_USER,
+  password: cfg.DB_PASS,
+  database: cfg.DB_NAME,
+  hostname: cfg.DB_HOST,
+  port: cfg.DB_PORT,
   tls: {
       enforce: false
   }
