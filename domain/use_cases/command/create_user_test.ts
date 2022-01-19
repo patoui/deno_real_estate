@@ -1,6 +1,6 @@
-import { delay, assert } from "../../dev_deps.ts";
-import { format } from "../../deps.ts";
-import { NewUser, User, UserRepositoryInterface } from "../user.ts";
+import { delay, assert } from "../../../dev_deps.ts";
+import { format } from "../../../deps.ts";
+import { NewUser, User, UserRepositoryInterface } from "../../user.ts";
 import CreateUser from "./create_user.ts";
 
 class MockUserRepository implements UserRepositoryInterface {

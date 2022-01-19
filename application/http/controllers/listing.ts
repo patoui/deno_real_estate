@@ -1,6 +1,6 @@
 import { Context } from "../../../deps.ts";
 import { NewListing } from "../../../domain/listing.ts";
-import CreateListing from "../../../domain/use_cases/create_listing.ts";
+import CreateListing from "../../../domain/use_cases/command/create_listing.ts";
 import ListingRepository from "../../repositories/listing_repository.ts";
 import IsFloat from "../../services/rules/is_float.ts";
 import IsInteger from "../../services/rules/is_integer.ts";

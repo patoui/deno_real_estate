@@ -1,6 +1,6 @@
-import { delay, assert } from "../../dev_deps.ts";
-import { format } from "../../deps.ts";
-import { NewListing, Listing, ListingRepositoryInterface } from "../listing.ts";
+import { delay, assert } from "../../../dev_deps.ts";
+import { format } from "../../../deps.ts";
+import { NewListing, Listing, ListingRepositoryInterface } from "../../listing.ts";
 import CreateListing from "./create_listing.ts";
 
 class MockListingRepository implements ListingRepositoryInterface {

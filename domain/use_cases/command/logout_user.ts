@@ -1,5 +1,5 @@
-import { CookieStoreInterface, SessionRepositoryInterface } from '../../domain/session.ts';
-import { Status } from './status.ts';
+import { CookieStoreInterface, SessionRepositoryInterface } from '../../../domain/session.ts';
+import { Status } from '../status.ts';
 
 export default class LogoutUser {
   sessionRepository: SessionRepositoryInterface;

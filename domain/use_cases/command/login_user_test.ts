@@ -1,10 +1,10 @@
-import { assert, delay } from "../../dev_deps.ts";
-import { format } from "../../deps.ts";
+import { assert, delay } from "../../../dev_deps.ts";
+import { format } from "../../../deps.ts";
 import {
   CookieStoreInterface,
   SessionRepositoryInterface,
-} from "../session.ts";
-import { User } from "../user.ts";
+} from "../../session.ts";
+import { User } from "../../user.ts";
 import LoginUser from "./login_user.ts";
 
 class MockSessionRepository implements SessionRepositoryInterface {

@@ -22,6 +22,10 @@ help:
 	    @echo ""
 	    @echo "compile         - Compile the application                         - ex: make compile"
 	    @echo ""
+	    @echo "TEST"
+	    @echo ""
+	    @echo "test            - Run all tests                                  - ex: make test"
+	    @echo ""
 
 start:
 	docker-compose -f docker-compose.yml up -d
@@ -46,3 +50,6 @@ redis:
 
 compile:
 	docker exec -it deno_test_app /bin/bash -c "deno compile --allow-net --allow-read -o main main.ts"
+
+test:
+	docker exec -it deno_test_app /bin/bash -c "deno test --allow-read"

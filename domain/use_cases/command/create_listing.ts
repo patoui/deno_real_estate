@@ -1,5 +1,5 @@
-import { NewListing, ListingRepositoryInterface } from '../../domain/listing.ts';
-import { Status } from "./status.ts";
+import { NewListing, ListingRepositoryInterface } from '../../../domain/listing.ts';
+import { Status } from "../status.ts";
 
 export default class CreateListing {
     repository: ListingRepositoryInterface;

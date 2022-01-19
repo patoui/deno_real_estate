@@ -1,9 +1,9 @@
-import { User } from '../../domain/user.ts';
+import { User } from '../../../domain/user.ts';
 import {
   CookieStoreInterface,
   SessionRepositoryInterface,
-} from '../../domain/session.ts';
-import { Status } from './status.ts';
+} from '../../../domain/session.ts';
+import { Status } from '../status.ts';
 
 export default class LoginUser {
   sessionRepository: SessionRepositoryInterface;

@@ -1,8 +1,8 @@
 import { Context } from "../../../deps.ts";
 import { NewUser } from "../../../domain/user.ts";
-import CreateUser from "../../../domain/use_cases/create_user.ts";
-import LoginUser from "../../../domain/use_cases/login_user.ts";
-import LogoutUser from "../../../domain/use_cases/logout_user.ts";
+import CreateUser from "../../../domain/use_cases/command/create_user.ts";
+import LoginUser from "../../../domain/use_cases/command/login_user.ts";
+import LogoutUser from "../../../domain/use_cases/command/logout_user.ts";
 import CookieRepository from "../../repositories/cookie_repository.ts";
 import SessionRepository from "../../repositories/session_repository.ts";
 import UserRepository from "../../repositories/user_repository.ts";

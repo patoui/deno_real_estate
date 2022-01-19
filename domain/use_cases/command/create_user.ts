@@ -1,5 +1,5 @@
-import { NewUser, UserRepositoryInterface } from '../../domain/user.ts';
-import { Status } from "./status.ts";
+import { NewUser, UserRepositoryInterface } from '../../../domain/user.ts';
+import { Status } from "../status.ts";
 
 export default class CreateUser {
     repository: UserRepositoryInterface;
