@@ -4,6 +4,7 @@ export default class Hasher {
   hash = async (data: string): Promise<string> => {
     return Hasher.toHexString(
       await crypto.subtle.digest(
+        // TODO: use better algo.
         "BLAKE3",
         new TextEncoder().encode(config().SALT + data),
       ),
