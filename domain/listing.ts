@@ -10,6 +10,21 @@ export interface ListingRepositoryInterface {
     createListing(newListing: NewListing): Promise<boolean>;
 }
 
+export interface PaginatedListingListInterface {
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalListings: number;
+  listings: Listing[];
+}
+
+export interface PaginatedListingListRepositoryInterface {
+  getPaginatedListings(
+    page: number,
+    perPage: number
+  ): Promise<PaginatedListingListInterface>;
+}
+
 export class Listing {
   id: number;
   user_id: number;
