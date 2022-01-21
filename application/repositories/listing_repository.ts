@@ -94,17 +94,19 @@ export default class ListingRepository
     page = 1,
     perPage = 15,
   ): Promise<PaginatedListingListInterface> => {
-    const listingCount = (await client.queryArray("SELECT COUNT(*) FROM listings")).rows[0][0] ?? 0;
+    const listingCount = Number(
+      (await client.queryArray("SELECT COUNT(*) as count FROM listings")).rows[0][0]
+    ).valueOf();
 
     const listings = (await client.queryObject<Listing>(
       "SELECT * FROM listings ORDER BY created_at DESC LIMIT $1 OFFSET $2",
-      [perPage, perPage * page],
+      [perPage, perPage * (page - 1)],
     )).rows;
 
     const paginatedListingList = new PaginatedListingList(
       page,
       perPage,
-      typeof listingCount === 'string' ? Number.parseInt(listingCount) : 0,
+      listingCount,
       listings
     );
 

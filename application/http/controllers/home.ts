@@ -7,6 +7,7 @@ export async function homeHandler(ctx: Context) {
     const paginatedListingList = new PaginatedListingList(
         new ListingRepository()
     );
-    const paginatedListings = paginatedListingList.fetch();
-    await view(ctx, 'home.eta', { paginatedListings });
+    const paginatedListings = await paginatedListingList.fetch();
+    console.log(paginatedListings);
+    await view(ctx, 'home.eta', { data: { paginatedListings } });
 }

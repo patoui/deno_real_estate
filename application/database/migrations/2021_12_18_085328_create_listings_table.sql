@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS listings (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     address VARCHAR(255) NOT NULL,
-    address_2 VARCHAR(50) NOT NULL,
+    address_2 VARCHAR(50),
     postal_code VARCHAR(6) NOT NULL,
     city VARCHAR(100) NOT NULL,
     province VARCHAR(30) NOT NULL,

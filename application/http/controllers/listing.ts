@@ -59,7 +59,7 @@ export const createListingHandler = async (ctx: Context) => {
       name: [new Required()],
       description: [new Required()],
       address: [new Required()],
-      address_2: [new Required()],
+      address_2: [],
       postal_code: [new Required()],
       city: [new Required()],
       province: [new Required()],
@@ -80,7 +80,8 @@ export const createListingHandler = async (ctx: Context) => {
     // Show errors on form
     errors = validator.getErrors();
     ctx.response.status = 302;
-    await view(ctx, "listing/create.eta", { errors });
+    await view(ctx, "listing/create.eta", { data, errors });
+    ctx.response.redirect('/listing/create');
     return;
   }
 
@@ -112,7 +113,7 @@ export const createListingHandler = async (ctx: Context) => {
   if (!createListingStatus.wasSuccessful()) {
     errors.general = [createListingStatus.getMessage()];
     ctx.response.status = 302;
-    await view(ctx, "listing/create.eta", { errors });
+    await view(ctx, "listing/create.eta", { data, errors });
     return;
   }
 

@@ -1,6 +1,5 @@
 import { Application, configure, Router } from "./deps.ts";
 import { homeHandler } from "./application/http/controllers/home.ts";
-import { aboutHandler } from "./application/http/controllers/about.ts";
 import {
   authUserHandler,
   createUserHandler,
@@ -19,7 +18,6 @@ const router = new Router();
 configure({ views: `${Deno.cwd()}/application/views/` });
 
 router.get("/", homeHandler);
-router.get("/about", aboutHandler);
 
 // authentication
 router.get("/sign-up", signUpUserHandler);
@@ -30,7 +28,7 @@ router.get("/sign-out", signOutUserHandler);
 
 // listing
 router.get("/listing/create", showCreateListingHandler);
-router.post("/listing", createListingHandler);
+router.post("/listing/create", createListingHandler);
 
 app.use(authed);
 app.use(router.routes());
