@@ -10,11 +10,11 @@ export { isEmail, isInt, isFloat } from 'https://deno.land/x/validate_patoui@v0.
 
 export { connect as redisConnect } from 'https://deno.land/x/redis@v0.25.0/mod.ts';
 
-export { crypto } from "https://deno.land/std@0.119.0/crypto/mod.ts";
-
 export { format } from "https://deno.land/std@0.119.0/datetime/mod.ts";
 
 export { config } from "https://deno.land/x/dotenv/mod.ts";
 
 export { Client } from "https://deno.land/x/postgres/mod.ts";
 export { Transaction } from "https://deno.land/x/postgres/query/transaction.ts";
+
+export { hash, verify, Variant } from "https://deno.land/x/argon2/lib/mod.ts";

@@ -1,20 +1,14 @@
-import { config, crypto } from "../../deps.ts";
+import { config, hash, verify, Variant } from "../../deps.ts";
 
 export default class Hasher {
-  hash = async (data: string): Promise<string> => {
-    return Hasher.toHexString(
-      await crypto.subtle.digest(
-        // TODO: use better algo.
-        "BLAKE3",
-        new TextEncoder().encode(config().SALT + data),
-      ),
-    );
+  static hash = async (data: string): Promise<string> => {
+    return await hash(data, {
+      variant: Variant.Argon2id,
+      salt: new Uint8Array(Number(config().SALT).valueOf()).valueOf()
+    });
   };
 
-  private static toHexString = (bytes: ArrayBuffer): string => {
-    return new Uint8Array(bytes).reduce(
-      (str, byte) => str + byte.toString(16).padStart(2, "0"),
-      "",
-    );
+  static verify = async (hash: string, password: string): Promise<boolean> => {
+    return await verify(hash, password);
   };
 }

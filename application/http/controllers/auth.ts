@@ -114,21 +114,15 @@ export async function authUserHandler(ctx: Context) {
   }
 
   if (data.email && data.password) {
-    const userRepository = new UserRepository();
-    const user = await userRepository.findUserByEmail(data.email);
-
-    if (!user) {
-      errors.general = ["Unable to find user"];
-      ctx.response.status = 302;
-      await view(ctx, "auth/sign_in.eta", { errors });
-      return;
-    }
-
     const loginUserCase = new LoginUser(
+      new UserRepository(),
       new SessionRepository(),
       new CookieRepository(ctx.cookies),
     );
-    const loginStatus = await loginUserCase.handle(user);
+    const loginStatus = await loginUserCase.handle(
+      data.email,
+      data.password
+    );
 
     if (!loginStatus.wasSuccessful()) {
       errors.general = [loginStatus.getMessage()];
