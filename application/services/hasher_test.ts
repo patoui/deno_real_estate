@@ -1,13 +1,10 @@
-import { assertEquals } from "../../dev_deps.ts";
+import { assert } from "../../dev_deps.ts";
 import Hasher from "./hasher.ts";
 
-Deno.test("Hasher returns the same value every time", () => {
+Deno.test("Hasher can verify value", async () => {
   // Arrange
-  const firstHash = (new Hasher()).hash('foobar');
-
-  // Act
-  const secondHash = (new Hasher()).hash('foobar');
+  const firstHash = await Hasher.hash('foobar');
 
   // Assert
-  assertEquals(firstHash, secondHash);
+  assert(await Hasher.verify(firstHash, 'foobar'));
 });

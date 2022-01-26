@@ -1,14 +1,12 @@
-import { config, hash, verify, Variant } from "../../deps.ts";
+import { hash, compare, genSalt } from "../../deps.ts";
 
 export default class Hasher {
   static hash = async (data: string): Promise<string> => {
-    return await hash(data, {
-      variant: Variant.Argon2id,
-      salt: new Uint8Array(Number(config().SALT).valueOf()).valueOf()
-    });
+    const salt = await genSalt(8);
+    return await hash(data, salt);
   };
 
   static verify = async (hash: string, password: string): Promise<boolean> => {
-    return await verify(hash, password);
+    return await compare(password, hash);
   };
 }

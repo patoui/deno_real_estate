@@ -52,4 +52,4 @@ compile:
 	docker exec -it deno_test_app /bin/bash -c "deno compile --allow-net --allow-read -o main main.ts"
 
 test:
-	docker exec -it deno_test_app /bin/bash -c "deno test --allow-read"
+	docker exec -it deno_test_app /bin/bash -c "deno test --allow-read --allow-net"

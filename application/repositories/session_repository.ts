@@ -6,7 +6,7 @@ import { format } from "../../deps.ts";
 
 export default class SessionRepository implements SessionRepositoryInterface {
     generateSessionId = async (user: User): Promise<string> => {
-        return await (new Hasher()).hash(
+        return await Hasher.hash(
             `${user.id}|${user.email}|` + format(new Date(), "yyyyMMddHHmmssSSS")
         );
     }
@@ -18,6 +18,7 @@ export default class SessionRepository implements SessionRepositoryInterface {
             return new User(
                 userObj.id,
                 userObj.name,
+                userObj.password,
                 userObj.email,
                 userObj.created_at,
                 userObj.last_accessed_at

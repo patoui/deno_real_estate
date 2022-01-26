@@ -18,7 +18,7 @@ export default class UserRepository implements UserRepositoryInterface {
             [
                 newUser.name,
                 newUser.email,
-                await (new Hasher()).hash(newUser.password)
+                await Hasher.hash(newUser.password)
             ]
         );
 
@@ -41,6 +41,7 @@ export default class UserRepository implements UserRepositoryInterface {
             user.id,
             user.name,
             user.email,
+            user.password,
             user.created_at,
             user.last_accessed_at
         );
@@ -62,6 +63,7 @@ export default class UserRepository implements UserRepositoryInterface {
             user.id,
             user.name,
             user.email,
+            user.password,
             user.created_at,
             user.last_accessed_at
         );

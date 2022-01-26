@@ -17,4 +17,5 @@ export { config } from "https://deno.land/x/dotenv/mod.ts";
 export { Client } from "https://deno.land/x/postgres/mod.ts";
 export { Transaction } from "https://deno.land/x/postgres/query/transaction.ts";
 
-export { hash, verify, Variant } from "https://deno.land/x/argon2/lib/mod.ts";
+export { hash, compare, genSalt } from "https://deno.land/x/bcrypt/mod.ts";
+// export { hash, verify, Variant } from "https://deno.land/x/argon2_patoui/mod.ts";

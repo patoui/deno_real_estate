@@ -24,6 +24,7 @@ class MockUserRepository implements UserRepositoryInterface {
                 this.data.length + 1,
                 newUser.name,
                 newUser.email,
+                newUser.password,
                 now,
                 now
             )
