@@ -7,8 +7,8 @@ export default class PaginatedListingList {
     this.listingRepository = listingRepository;
   }
 
-  fetch = async (): Promise<PaginatedListingListInterface> => {
-    const paginatedListings = await this.listingRepository.getPaginatedListings(1, 15);
+  fetch = async (page = 1, perPage = 15): Promise<PaginatedListingListInterface> => {
+    const paginatedListings = await this.listingRepository.getPaginatedListings(page, perPage);
     return paginatedListings;
   }
 }

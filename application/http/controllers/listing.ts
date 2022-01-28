@@ -1,12 +1,21 @@
 import { Context } from "../../../deps.ts";
 import { NewListing } from "../../../domain/listing.ts";
 import CreateListing from "../../../domain/use_cases/command/create_listing.ts";
+import PaginatedListingList from "../../../domain/use_cases/query/paginated_listings_list.ts";
 import ListingRepository from "../../repositories/listing_repository.ts";
 import IsFloat from "../../services/rules/is_float.ts";
 import IsInteger from "../../services/rules/is_integer.ts";
 import Required from "../../services/rules/required.ts";
 import Validator from "../../services/validator.ts";
 import view from "./helpers/view.ts";
+
+export async function listListingHandler(ctx: Context) {
+  const paginatedListingList = new PaginatedListingList(
+      new ListingRepository()
+  );
+  const paginatedListings = await paginatedListingList.fetch();
+  await view(ctx, "listing/list.eta", { data: { paginatedListings } });
+}
 
 export async function showCreateListingHandler(ctx: Context) {
   const authedUser = ctx.state.user ?? null;

@@ -1,0 +1,32 @@
+<% layout('./layout', { title: 'Home'} ) %>
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">MLS #</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (it.data.paginatedListings.totalListings) { %>
+                            <% it.data.paginatedListings.listings.forEach(function (listing) { %>
+                            <tr>
+                                <th scope="row"><%= listing.mls_number %></th>
+                                <td><%= listing.price %></td>
+                                <td><%= listing.address %></td>
+                                <td><%= listing.created_at %></td>
+                            </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
