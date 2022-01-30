@@ -1,13 +1,13 @@
 export interface ListingRepositoryInterface {
-    doesListingExists(
-        address: string,
-        postal_code: string,
-        city: string,
-        province: string,
-        country: string,
-        address_2: string|null
-    ): Promise<boolean>;
-    createListing(newListing: NewListing): Promise<boolean>;
+  doesListingExists(
+    address: string,
+    postal_code: string,
+    city: string,
+    province: string,
+    country: string,
+    address_2: string | null,
+  ): Promise<boolean>;
+  createListing(newListing: NewListing): Promise<boolean>;
 }
 
 export interface PaginatedListingListInterface {
@@ -18,10 +18,19 @@ export interface PaginatedListingListInterface {
   listings: Listing[];
 }
 
+export interface SearchListingsInterface {
+  location: string | null;
+  minPrice: number | null;
+  maxPrice: number | null;
+  numBedrooms: number | null;
+  numBathrooms: number | null;
+}
+
 export interface PaginatedListingListRepositoryInterface {
   getPaginatedListings(
     page: number,
-    perPage: number
+    perPage: number,
+    searchListing: SearchListingsInterface | null,
   ): Promise<PaginatedListingListInterface>;
 }
 

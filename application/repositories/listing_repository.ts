@@ -5,6 +5,7 @@ import {
   NewListing,
   PaginatedListingListInterface,
   PaginatedListingListRepositoryInterface,
+SearchListingsInterface,
 } from "../../domain/listing.ts";
 import PaginatedListingList from "./value_objects/paginated_listing_list.ts";
 
@@ -93,14 +94,48 @@ export default class ListingRepository
   getPaginatedListings = async (
     page = 1,
     perPage = 15,
+    searchListing: SearchListingsInterface | null,
   ): Promise<PaginatedListingListInterface> => {
     const listingCount = Number(
       (await client.queryArray("SELECT COUNT(*) as count FROM listings")).rows[0][0]
     ).valueOf();
 
+    let listingSql = "SELECT * FROM listings WHERE 1=1";
+    const listingBindings: { [key: string]: unknown } = {
+      limit: perPage,
+      offset: perPage * (page - 1)
+    };
+
+    if (searchListing?.location) {
+      listingSql += ` AND (city ILIKE $LOCATION OR province ILIKE $LOCATION OR postal_code ILIKE $LOCATION)`
+      listingBindings.location = searchListing.location;
+    }
+
+    if (searchListing?.minPrice) {
+      listingSql += ` AND price >= $MIN_PRICE`
+      listingBindings.min_price = searchListing.minPrice;
+    }
+
+    if (searchListing?.maxPrice) {
+      listingSql += ` AND price <= $MAX_PRICE`
+      listingBindings.max_price = searchListing.maxPrice;
+    }
+
+    if (searchListing?.numBedrooms) {
+      listingSql += ` AND bedrooms >= $NUM_BEDROOMS`
+      listingBindings.num_bedrooms = searchListing.numBedrooms;
+    }
+
+    if (searchListing?.numBathrooms) {
+      listingSql += ` AND bathrooms >= $NUM_BATHROOMS`
+      listingBindings.num_bathrooms = searchListing.numBathrooms;
+    }
+
+    listingSql += ` ORDER BY created_at DESC LIMIT $LIMIT OFFSET $OFFSET`
+
     const listings = (await client.queryObject<Listing>(
-      "SELECT * FROM listings ORDER BY created_at DESC LIMIT $1 OFFSET $2",
-      [perPage, perPage * (page - 1)],
+      listingSql,
+      listingBindings,
     )).rows;
 
     const paginatedListingList = new PaginatedListingList(

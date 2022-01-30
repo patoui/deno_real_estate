@@ -5,21 +5,21 @@
         <div class="row pb-3 bg-home home-splash">
             <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8 col-11 p-sm-5 p-md-5 p-lg-5 p-xl-5 p-3 bg-white rounded mx-auto">
                 <h1 class="text-center pt-3 pb-3">Find your dream home</h1>
-                <form>
+                <form action="/listing" method="GET">
                     <div class="d-flex mb-2">
-                        <input class="form-control me-2 pe-0" type="search" placeholder="Search city, neighborhood" aria-label="Search a city or neighborhood">
+                        <input name="location" class="form-control me-2 pe-0" type="search" placeholder="Search city, neighborhood" aria-label="Search a city or neighborhood">
                         <button class="btn btn-main bg-pink-to-orange rounded-pill" type="submit">Search</button>
                     </div>
                     <div class="container-fluid p-0">
                         <div class="row">
                             <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                                <input class="form-control me-2" type="text" placeholder="Min Price" aria-label="Minimum Price">
+                                <input name="min_price" class="form-control me-2" type="text" placeholder="Min Price" aria-label="Minimum Price">
                             </div>
                             <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                                <input class="form-control me-2" type="text" placeholder="Max Price" aria-label="Maximum Price">
+                                <input name="max_price" class="form-control me-2" type="text" placeholder="Max Price" aria-label="Maximum Price">
                             </div>
                             <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                                <select class="form-select me-2" aria-label="Number of Bedrooms">
+                                <select name="num_bedrooms" class="form-select me-2" aria-label="Number of Bedrooms">
                                     <option selected>Beds</option>
                                     <option value="1">1+</option>
                                     <option value="2">2+</option>
@@ -29,7 +29,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                                <select class="form-select" aria-label="Number of Bathrooms">
+                                <select name="num_bathrooms" class="form-select" aria-label="Number of Bathrooms">
                                     <option selected>Baths</option>
                                     <option value="1">1+</option>
                                     <option value="1.5">1.5+</option>

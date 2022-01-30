@@ -1,4 +1,4 @@
-import { PaginatedListingListInterface, PaginatedListingListRepositoryInterface } from "../../listing.ts";
+import { PaginatedListingListInterface, PaginatedListingListRepositoryInterface, SearchListingsInterface } from "../../listing.ts";
 
 export default class PaginatedListingList {
   listingRepository: PaginatedListingListRepositoryInterface;
@@ -7,8 +7,8 @@ export default class PaginatedListingList {
     this.listingRepository = listingRepository;
   }
 
-  fetch = async (page = 1, perPage = 15): Promise<PaginatedListingListInterface> => {
-    const paginatedListings = await this.listingRepository.getPaginatedListings(page, perPage);
+  fetch = async (page = 1, perPage = 15, searchListing: SearchListingsInterface | null = null): Promise<PaginatedListingListInterface> => {
+    const paginatedListings = await this.listingRepository.getPaginatedListings(page, perPage, searchListing);
     return paginatedListings;
   }
 }
