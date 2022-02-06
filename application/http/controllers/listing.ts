@@ -1,6 +1,8 @@
+import { RouteParams, RouterContext, State } from "https://deno.land/x/oak@v10.2.0/mod.ts";
 import { Context } from "../../../deps.ts";
 import { NewListing } from "../../../domain/listing.ts";
 import CreateListing from "../../../domain/use_cases/command/create_listing.ts";
+import FetchListing from "../../../domain/use_cases/query/fetch_listing.ts";
 import PaginatedListingList from "../../../domain/use_cases/query/paginated_listings_list.ts";
 import ListingRepository from "../../repositories/listing_repository.ts";
 import SearchListings from "../../repositories/value_objects/search_listings.ts";
@@ -24,6 +26,17 @@ export async function listListingHandler(ctx: Context) {
     paginatedListings,
     searchListings
   } });
+}
+
+export async function showListingHandler(
+  ctx: RouterContext<"/listing/:id", { id: string; } & RouteParams<string>, State>
+) {
+  const fetchListing = new FetchListing(
+      new ListingRepository()
+  );
+  const listing = await fetchListing.fetch(Number(ctx.params.id).valueOf());
+  console.log
+  await view(ctx, "listing/show.eta", { data: { listing } });
 }
 
 export async function showCreateListingHandler(ctx: Context) {

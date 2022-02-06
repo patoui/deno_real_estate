@@ -1,4 +1,4 @@
-import { Application, configure, Router } from "./deps.ts";
+import { Application, configure, Context, Router } from "./deps.ts";
 import { homeHandler } from "./application/http/controllers/home.ts";
 import {
   authUserHandler,
@@ -12,6 +12,7 @@ import { staticFiles } from "./application/http/middleware/static.ts";
 import {
   createListingHandler,
   listListingHandler,
+  showListingHandler,
   showCreateListingHandler,
 } from "./application/http/controllers/listing.ts";
 
@@ -32,6 +33,7 @@ router.get("/sign-out", signOutUserHandler);
 
 // listing
 router.get("/listing", listListingHandler);
+router.get("/listing/:id", showListingHandler);
 router.get("/listing/create", showCreateListingHandler);
 router.post("/listing/create", createListingHandler);
 

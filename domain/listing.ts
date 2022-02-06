@@ -34,6 +34,12 @@ export interface PaginatedListingListRepositoryInterface {
   ): Promise<PaginatedListingListInterface>;
 }
 
+export interface FetchListingRepositoryInterface {
+  fetchById(
+    id: number
+  ): Promise<Listing | null>;
+}
+
 export class Listing {
   id: number;
   user_id: number;

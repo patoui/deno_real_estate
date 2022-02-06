@@ -60,7 +60,7 @@
                         <% if (it.data.paginatedListings.totalListings) { %>
                             <% it.data.paginatedListings.listings.forEach(function (listing) { %>
                             <tr>
-                                <th scope="row"><%= listing.mls_number %></th>
+                                <th scope="row"><a href="/listing/<%= listing.id %>"><%= listing.mls_number %></a></th>
                                 <td><%= listing.price %></td>
                                 <td><%= listing.address + ', ' + listing.city + ', ' + listing.province %></td>
                                 <td><%= listing.created_at %></td>

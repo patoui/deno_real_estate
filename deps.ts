@@ -2,7 +2,9 @@ export {
   Application,
   Context,
   Router
-} from "https://deno.land/x/oak@v10.1.0/mod.ts";
+} from "https://deno.land/x/oak@v10.2.0/mod.ts";
+
+export { Cookies } from "https://deno.land/x/oak@v10.2.0/cookies.ts";
 
 export { renderFile, configure } from "https://deno.land/x/eta@v1.12.3/mod.ts"
 

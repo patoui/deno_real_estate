@@ -1,5 +1,5 @@
+import { Cookies } from "../../deps.ts";
 import { CookieStoreInterface } from "../../domain/session.ts";
-import { Cookies } from "https://deno.land/x/oak@v10.1.0/cookies.ts";
 
 export default class CookieRepository implements CookieStoreInterface {
   cookies: Cookies;
