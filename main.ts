@@ -13,8 +13,11 @@ import {
   createListingHandler,
   listListingHandler,
   showListingHandler,
-  showCreateListingHandler,
+  showCreateListingHandler
 } from "./application/http/controllers/listing.ts";
+import {
+  favouriteListingHandler
+} from "./application/http/controllers/favourite.ts";
 
 const port = 8080;
 const app = new Application();
@@ -36,6 +39,9 @@ router.get("/listing", listListingHandler);
 router.get("/listing/:id", showListingHandler);
 router.get("/listing/create", showCreateListingHandler);
 router.post("/listing/create", createListingHandler);
+
+// listing favourite
+router.get("/listing/:id/favourite", favouriteListingHandler);
 
 app.use(authed);
 app.use(router.routes());

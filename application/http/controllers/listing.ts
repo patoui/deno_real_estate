@@ -1,9 +1,15 @@
-import { RouteParams, RouterContext, State } from "https://deno.land/x/oak@v10.2.0/mod.ts";
+import {
+  RouteParams,
+  RouterContext,
+  State,
+} from "https://deno.land/x/oak@v10.2.0/mod.ts";
 import { Context } from "../../../deps.ts";
 import { NewListing } from "../../../domain/listing.ts";
 import CreateListing from "../../../domain/use_cases/command/create_listing.ts";
 import FetchListing from "../../../domain/use_cases/query/fetch_listing.ts";
+import FetchListingFavourite from "../../../domain/use_cases/query/fetch_listing_favourite.ts";
 import PaginatedListingList from "../../../domain/use_cases/query/paginated_listings_list.ts";
+import FavouriteRepository from "../../repositories/favourite_repository.ts";
 import ListingRepository from "../../repositories/listing_repository.ts";
 import SearchListings from "../../repositories/value_objects/search_listings.ts";
 import IsFloat from "../../services/rules/is_float.ts";
@@ -14,29 +20,50 @@ import view from "./helpers/view.ts";
 
 export async function listListingHandler(ctx: Context) {
   const paginatedListingList = new PaginatedListingList(
-      new ListingRepository()
+    new ListingRepository(),
   );
-  const searchListings = SearchListings.parseUrlSearchParams(ctx.request.url.searchParams);
+  const searchListings = SearchListings.parseUrlSearchParams(
+    ctx.request.url.searchParams,
+  );
   const paginatedListings = await paginatedListingList.fetch(
     1,
     15,
-    searchListings
+    searchListings,
   );
-  await view(ctx, "listing/list.eta", { data: {
-    paginatedListings,
-    searchListings
-  } });
+  await view(ctx, "listing/list.eta", {
+    data: {
+      paginatedListings,
+      searchListings,
+    },
+  });
 }
 
 export async function showListingHandler(
-  ctx: RouterContext<"/listing/:id", { id: string; } & RouteParams<string>, State>
+  ctx: RouterContext<
+    "/listing/:id",
+    { id: string } & RouteParams<string>,
+    State
+  >,
 ) {
-  const fetchListing = new FetchListing(
-      new ListingRepository()
-  );
+  const fetchListing = new FetchListing(new ListingRepository());
   const listing = await fetchListing.fetch(Number(ctx.params.id).valueOf());
-  console.log
-  await view(ctx, "listing/show.eta", { data: { listing } });
+
+  if (!listing) {
+    const errors = { general: ['Listing not found'] };
+    ctx.response.status = 404;
+    await view(ctx, "errors/404.eta", { errors });
+    return;
+  }
+
+  const authedUserId = ctx.state.user.id ?? null;
+
+  const fetchListingFavourite = new FetchListingFavourite(new FavouriteRepository());
+  const isFavourited = await fetchListingFavourite.fetch(
+    Number(ctx.params.id).valueOf(),
+    authedUserId
+  );
+
+  await view(ctx, "listing/show.eta", { data: { listing, isFavourited } });
 }
 
 export async function showCreateListingHandler(ctx: Context) {
@@ -112,7 +139,7 @@ export const createListingHandler = async (ctx: Context) => {
     errors = validator.getErrors();
     ctx.response.status = 302;
     await view(ctx, "listing/create.eta", { data, errors });
-    ctx.response.redirect('/listing/create');
+    ctx.response.redirect("/listing/create");
     return;
   }
 

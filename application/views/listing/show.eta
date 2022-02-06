@@ -6,6 +6,9 @@
             <h1 class="text-center">
                 <%= it.data.listing.address_2 + ' ' + it.data.listing.address + ', ' + it.data.listing.city %>
             </h1>
+            <a href="/listing/<%= it.data.listing.id %>/favourite" class="btn btn-<%= it.data.isFavourited ? 'danger' : 'light' %> mx-auto d-block" style="max-width: 200px;">
+                <%= it.data.isFavourited ? 'Remove favourite' : 'Favourite me!' %>
+            </a>
             <table class="table">
                 <tbody>
                     <tr>
