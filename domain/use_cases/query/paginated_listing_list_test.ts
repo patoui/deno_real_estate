@@ -1,8 +1,6 @@
 import { assert, delay } from "../../../dev_deps.ts";
 import { format } from "../../../deps.ts";
-import FetchListing from "./fetch_listing.ts";
 import {
-  FetchListingRepositoryInterface,
   Listing,
   PaginatedListingListInterface,
   PaginatedListingListRepositoryInterface,
