@@ -63,7 +63,7 @@ class MockListingRepository implements ListingRepositoryInterface {
     };
 }
 
-Deno.test("Create Listing", async () => {
+Deno.test("Create listing", async () => {
     // Arrange
     const mockListingRepository = new MockListingRepository();
     const createListingCase = new CreateListing(mockListingRepository);

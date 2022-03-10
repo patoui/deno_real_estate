@@ -94,9 +94,19 @@ class MockCookieRepository implements CookieStoreInterface {
   };
 }
 
-Deno.test("Logout User", async () => {
+Deno.test("Logout user", async () => {
   // Arrange
+  const now = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+  const user = new User(
+    1,
+    "John Doe",
+    "johndoe@gmail.com",
+    "gibberish",
+    now,
+    now,
+  );
   const mockUserRepository = new MockUserRepository();
+  mockUserRepository.data = [user];
   const mockSessionRepository = new MockSessionRepository();
   const mockCookieRepository = new MockCookieRepository();
   const loginUserCase = new LoginUser(
@@ -108,15 +118,6 @@ Deno.test("Logout User", async () => {
     mockSessionRepository,
     mockCookieRepository,
   );
-  const now = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-  const user = new User(
-    1,
-    "John Doe",
-    "johndoe@gmail.com",
-    "gibberish",
-    now,
-    now,
-  );
   await loginUserCase.handle(user.email, user.password);
 
   // Pre-assert
@@ -124,7 +125,7 @@ Deno.test("Logout User", async () => {
   // TODO: fix it, it's pulling from cookie store for the session id, likely doesn't match.
   assert(
     await mockSessionRepository.doesSessionExists(
-      String(user.id).valueOf(),
+      await mockSessionRepository.generateSessionId(user)
     ),
   );
 

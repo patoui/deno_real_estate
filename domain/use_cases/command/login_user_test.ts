@@ -93,16 +93,8 @@ class MockCookieRepository implements CookieStoreInterface {
   };
 }
 
-Deno.test("Login User", async () => {
+Deno.test("Login user", async () => {
   // Arrange
-  const mockUserRepository = new MockUserRepository();
-  const mockSessionRepository = new MockSessionRepository();
-  const mockCookieRepository = new MockCookieRepository();
-  const loginUserCase = new LoginUser(
-    mockUserRepository,
-    mockSessionRepository,
-    mockCookieRepository,
-  );
   const now = format(new Date(), "yyyy-MM-dd HH:mm:ss");
   const user = new User(
     1,
@@ -111,6 +103,15 @@ Deno.test("Login User", async () => {
     "gibberish",
     now,
     now,
+  );
+  const mockUserRepository = new MockUserRepository();
+  mockUserRepository.data = [user];
+  const mockSessionRepository = new MockSessionRepository();
+  const mockCookieRepository = new MockCookieRepository();
+  const loginUserCase = new LoginUser(
+    mockUserRepository,
+    mockSessionRepository,
+    mockCookieRepository,
   );
 
   // Pre-assert

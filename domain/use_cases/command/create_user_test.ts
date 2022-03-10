@@ -34,7 +34,7 @@ class MockUserRepository implements UserRepositoryInterface {
     }
 }
 
-Deno.test("Create User", async () => {
+Deno.test("Create user", async () => {
     // Arrange
     const mockUserRepository = new MockUserRepository();
     const createUserCase = new CreateUser(mockUserRepository);
