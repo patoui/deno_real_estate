@@ -43,7 +43,7 @@ migrate-create:
 	echo '' > application/database/migrations/`date +%Y_%m_%d_%H%M%S`_$(name).sql
 
 migrate:
-	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net application/database/migrate.ts"
+	docker exec -it deno_test_app /bin/bash -c "deno run --allow-read --allow-net --allow-env application/database/migrate.ts"
 
 redis:
 	docker exec -it deno_test_redis redis-cli
