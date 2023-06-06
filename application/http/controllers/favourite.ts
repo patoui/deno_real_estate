@@ -1,8 +1,4 @@
-import {
-  RouteParams,
-  RouterContext,
-  State,
-} from "https://deno.land/x/oak@v10.2.0/mod.ts";
+import { RouteParams, RouterContext, State } from "../../../deps.ts";
 import ToggleListingAsFavourite from "../../../domain/use_cases/command/toggle_listing_as_favourite.ts";
 import FavouriteRepository from "../../repositories/favourite_repository.ts";
 import view from "./helpers/view.ts";

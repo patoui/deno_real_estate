@@ -1,6 +1,6 @@
 import { redisConnect } from '../../deps.ts';
 
 export const redis = await redisConnect({
-  hostname: 'deno_test_redis',
-  port: 6379,
+  hostname: Deno.env.get("REDIS_HOST") ?? '0.0.0.0',
+  port: Deno.env.get("REDIS_PORT") ?? 6379,
 });

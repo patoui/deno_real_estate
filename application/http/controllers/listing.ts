@@ -1,9 +1,4 @@
-import {
-  RouteParams,
-  RouterContext,
-  State,
-} from "https://deno.land/x/oak@v10.2.0/mod.ts";
-import { Context } from "../../../deps.ts";
+import { Context, RouteParams, RouterContext, State } from "../../../deps.ts";
 import { NewListing } from "../../../domain/listing.ts";
 import CreateListing from "../../../domain/use_cases/command/create_listing.ts";
 import FetchListing from "../../../domain/use_cases/query/fetch_listing.ts";

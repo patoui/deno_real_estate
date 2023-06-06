@@ -1,12 +1,11 @@
-import { Client, config } from "../../deps.ts"
+import { Client } from "../../deps.ts"
 
-const cfg = config();
 export const client = new Client({
-  user: cfg.DB_USER,
-  password: cfg.DB_PASS,
-  database: cfg.DB_NAME,
-  hostname: cfg.DB_HOST,
-  port: cfg.DB_PORT,
+  user: Deno.env.get("DB_USER"),
+  password: Deno.env.get("DB_PASS"),
+  database: Deno.env.get("DB_NAME"),
+  hostname: Deno.env.get("DB_HOST"),
+  port: parseInt(Deno.env.get("DB_PORT") ?? "8080"),
   tls: {
       enforce: false
   }
