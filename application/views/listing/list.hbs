@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <form action="/listing" method="GET">
+                <div class="d-flex mb-2">
+                    <input name="location" value="{{data.searchListings.location}}" class="form-control me-2 pe-0" type="search" placeholder="Search city, neighborhood" aria-label="Search a city or neighborhood">
+                    <a href="/listing" class="btn btn-main bg-pink-to-orange rounded-pill me-2" type="submit">Reset</a>
+                    <button class="btn btn-main bg-pink-to-orange rounded-pill" type="submit">Search</button>
+                </div>
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                            <input name="min_price" value="{{data.searchListings.minPrice}}" class="form-control me-2" type="text" placeholder="Min Price" aria-label="Minimum Price">
+                        </div>
+                        <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                            <input name="max_price" value="{{data.searchListings.maxPrice}}" class="form-control me-2" type="text" placeholder="Max Price" aria-label="Maximum Price">
+                        </div>
+                        <div class="col-12 pb-2 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                            <select name="num_bedrooms" class="form-select me-2" aria-label="Number of Bedrooms" autocomplete="off">
+                                <option selected>Beds</option>
+                                <option value="1" {{#ifCond data.searchListings.numBedrooms '===' 1}}selected{{/ifCond}}>1+</option>
+                                <option value="2" {{#ifCond data.searchListings.numBedrooms '===' 2}}selected{{/ifCond}}>2+</option>
+                                <option value="3" {{#ifCond data.searchListings.numBedrooms '===' 3}}selected{{/ifCond}}>3+</option>
+                                <option value="4" {{#ifCond data.searchListings.numBedrooms '===' 4}}selected{{/ifCond}}>4+</option>
+                                <option value="5" {{#ifCond data.searchListings.numBedrooms '===' 5}}selected{{/ifCond}}>5+</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                            <select name="num_bathrooms" class="form-select" aria-label="Number of Bathrooms" autocomplete="off">
+                                <option selected>Baths</option>
+                                <option value="1" {{#ifCond data.searchListings.numBathrooms '===' 1}}selected{{/ifCond}}>1+</option>
+                                <option value="1.5" {{#ifCond data.searchListings.numBathrooms '===' 1.5}}selected{{/ifCond}}>1.5+</option>
+                                <option value="2" {{#ifCond data.searchListings.numBathrooms '===' 2}}selected{{/ifCond}}>2+</option>
+                                <option value="2.5" {{#ifCond data.searchListings.numBathrooms '===' 2.5}}selected{{/ifCond}}>2.5+</option>
+                                <option value="3" {{#ifCond data.searchListings.numBathrooms '===' 3}}selected{{/ifCond}}>3+</option>
+                                <option value="3.5" {{#ifCond data.searchListings.numBathrooms '===' 3.5}}selected{{/ifCond}}>3.5+</option>
+                                <option value="4" {{#ifCond data.searchListings.numBathrooms '===' 4}}selected{{/ifCond}}>4+</option>
+                                <option value="4.5" {{#ifCond data.searchListings.numBathrooms '===' 4.5}}selected{{/ifCond}}>4.5+</option>
+                                <option value="5" {{#ifCond data.searchListings.numBathrooms '===' 5}}selected{{/ifCond}}>5+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">MLS #</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data.paginatedListings.listings}}
+                        <tr>
+                            <th scope="row"><a href="/listing/{{listing.id}}">{{listing.mls_number}}</a></th>
+                            <td>{{this.price}}</td>
+                            <td>{{this.address}}, {{this.city}}, {{this.province}}</td>
+                            <td>{{this.created_at}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

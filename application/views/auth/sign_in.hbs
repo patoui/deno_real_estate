@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row justify-content-center pt-5">
+        <div class="col-6">
+            <h1 class="text-center">Sign In</h1>
+            <form method="POST" action="/sign-in" class="pt-3">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input name="email" type="email"
+                        class="form-control {{#hasErrors 'email'}}is-invalid{{/hasErrors}}"
+                        id="email" aria-describedby="emailHelp">
+                    {{#hasErrors 'email'}}
+                        <div class="invalid-feedback">
+                        {{#each (errors 'email')}}
+                            <p class="m-0">{{ this }}</p>
+                        {{/each}}
+                        </div>
+                    {{/hasErrors}}
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input name="password" type="password"
+                        class="form-control {{#hasErrors 'password'}}is-invalid{{/hasErrors}}"
+                        id="password">
+                    {{#hasErrors 'password'}}
+                        <div class="invalid-feedback">
+                        {{#each (errors 'password')}}
+                            <p class="m-0">{{ this }}</p>
+                        {{/each}}
+                        </div>
+                    {{/hasErrors}}
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                <a href="/sign-up" class="btn btn-link" title="Sign Up">Sign Up</a>
+            </form>
+        </div>
+    </div>
+</div>

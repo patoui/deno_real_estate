@@ -1,4 +1,4 @@
-import { Application, configure, Router } from "./deps.ts";
+import { Application, Handlebars, HandlebarsConfig, HandlebarsJS, Router } from "./deps.ts";
 import { homeHandler } from "./application/http/controllers/home.ts";
 import {
   authUserHandler,
@@ -18,12 +18,87 @@ import {
 import {
   favouriteListingHandler
 } from "./application/http/controllers/favourite.ts";
+import { ViewData } from "./application/http/controllers/helpers/view.ts";
 
 const port = parseInt(Deno.env.get("APP_PORT") ?? "8080");
 const app = new Application();
 const router = new Router();
 
-configure({ views: `${Deno.cwd()}/application/views/` });
+const getFieldErrors = function (viewData: ViewData, field: string): string[] {
+  const errors = viewData?.errors;
+
+  if (! errors) {
+    return [];
+  }
+
+  const fieldErrors = errors[field] ?? [];
+
+  if (! fieldErrors || fieldErrors.length === 0) {
+    return [];
+  }
+
+  return fieldErrors;
+}
+
+const handle = new Handlebars({
+  baseDir: `${Deno.cwd()}/application/views`,
+  cachePartials: (Deno.env.get("APP_ENV") ?? 'local') === 'production',
+  helpers: {
+    // deno-lint-ignore no-explicit-any
+    ifCond: function(v1: any, operator: string, v2: any, options: HandlebarsJS.HelperOptions) {
+      switch (operator) {
+        case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+          return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+          return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+          return options.inverse(this);
+      }
+    },
+    hasErrors: function(field: string, options: HandlebarsJS.HelperOptions) {
+      const viewData: ViewData|null = options?.data?.root;
+
+      if (! viewData) {
+        return options.inverse(this);
+      }
+
+      const fieldErrors = getFieldErrors(viewData, field);
+
+      if (fieldErrors.length === 0) {
+        return options.inverse(this);
+      }
+
+      return options.fn(this);
+    },
+    errors: function(field: string, options: HandlebarsJS.HelperOptions) {
+      const viewData: ViewData|null = options?.data?.root;
+      return viewData ? getFieldErrors(viewData, field) : [];
+    }
+  }
+} as HandlebarsConfig);
+
+declare global {
+    const hb: Handlebars
+    interface Window { hb: Handlebars; }
+}
+
+window.hb = handle;
 
 router.get("/", homeHandler);
 

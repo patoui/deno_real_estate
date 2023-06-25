@@ -1,87 +1,85 @@
-<% layout('../layout', { title: 'Show Listing'} ) %>
-
 <div class="container">
     <div class="row justify-content-center pt-5">
         <div class="col-6">
             <h1 class="text-center">
-                <%= it.data.listing.address_2 + ' ' + it.data.listing.address + ', ' + it.data.listing.city %>
+                {{data.listing.address_2}} {{data.listing.address}}, {{data.listing.city}}
             </h1>
-            <a href="/listing/<%= it.data.listing.id %>/favourite" class="btn btn-<%= it.data.isFavourited ? 'danger' : 'light' %> mx-auto d-block" style="max-width: 200px;">
-                <%= it.data.isFavourited ? 'Remove favourite' : 'Favourite me!' %>
+            <a href="/listing/{{data.listing.id}}/favourite" class="btn btn-{{#if data.isFavourited}}danger{{else}}light{{/if}} mx-auto d-block" style="max-width: 200px;">
+                {{#if data.isFavourited}}Remove favourite{{else}}Favourite me!{{/if}}
             </a>
             <table class="table">
                 <tbody>
                     <tr>
                         <td>mls_number</td>
-                        <td><%= it.data.listing.mls_number %></td>
+                        <td>{{data.listing.mls_number}}</td>
                     </tr>
                     <tr>
                         <td>price</td>
-                        <td><%= it.data.listing.price %></td>
+                        <td>{{data.listing.price}}</td>
                     </tr>
                     <tr>
                         <td>name</td>
-                        <td><%= it.data.listing.name %></td>
+                        <td>{{data.listing.name}}</td>
                     </tr>
                     <tr>
                         <td>description</td>
-                        <td><%= it.data.listing.description %></td>
+                        <td>{{data.listing.description}}</td>
                     </tr>
                     <tr>
                         <td>address</td>
-                        <td><%= it.data.listing.address %></td>
+                        <td>{{data.listing.address}}</td>
                     </tr>
                     <tr>
                         <td>address_2</td>
-                        <td><%= it.data.listing.address_2 %></td>
+                        <td>{{data.listing.address_2}}</td>
                     </tr>
                     <tr>
                         <td>postal_code</td>
-                        <td><%= it.data.listing.postal_code %></td>
+                        <td>{{data.listing.postal_code}}</td>
                     </tr>
                     <tr>
                         <td>city</td>
-                        <td><%= it.data.listing.city %></td>
+                        <td>{{data.listing.city}}</td>
                     </tr>
                     <tr>
                         <td>province</td>
-                        <td><%= it.data.listing.province %></td>
+                        <td>{{data.listing.province}}</td>
                     </tr>
                     <tr>
                         <td>country</td>
-                        <td><%= it.data.listing.country %></td>
+                        <td>{{data.listing.country}}</td>
                     </tr>
                     <tr>
                         <td>bedrooms</td>
-                        <td><%= it.data.listing.bedrooms %></td>
+                        <td>{{data.listing.bedrooms}}</td>
                     </tr>
                     <tr>
                         <td>bathrooms</td>
-                        <td><%= it.data.listing.bathrooms %></td>
+                        <td>{{data.listing.bathrooms}}</td>
                     </tr>
                     <tr>
                         <td>property_type</td>
-                        <td><%= it.data.listing.property_type %></td>
+                        <td>{{data.listing.property_type}}</td>
                     </tr>
                     <tr>
                         <td>house_type</td>
-                        <td><%= it.data.listing.house_type %></td>
+                        <td>{{data.listing.house_type}}</td>
                     </tr>
                     <tr>
                         <td>stories</td>
-                        <td><%= it.data.listing.stories %></td>
+                        <td>{{data.listing.stories}}</td>
                     </tr>
                     <tr>
                         <td>title</td>
-                        <td><%= it.data.listing.title %></td>
+                        <td>{{data.listing.title}}</td>
                     </tr>
                     <tr>
                         <td>build_year</td>
-                        <td><%= it.data.listing.build_year %></td>
+                        <td>{{data.listing.build_year}}</td>
                     </tr>
                     <tr>
                         <td>parking_type</td>
-                        <td><%= it.data.listing.parking_type %></td>
+                        <td>{{data.listing.parking_type}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -11,7 +11,7 @@ import Validator from "../../services/validator.ts";
 import view from "./helpers/view.ts";
 
 export async function signUpUserHandler(ctx: Context) {
-  await view(ctx, "auth/sign_up.eta");
+  await view(ctx, "auth/sign_up");
 }
 
 export const createUserHandler = async (ctx: Context) => {
@@ -39,7 +39,7 @@ export const createUserHandler = async (ctx: Context) => {
     // Show errors on form
     errors = validator.getErrors();
     ctx.response.status = 302;
-    await view(ctx, "auth/sign_up.eta", { errors });
+    await view(ctx, "auth/sign_up", { errors });
     return;
   }
 
@@ -54,7 +54,7 @@ export const createUserHandler = async (ctx: Context) => {
     if (!createUserStatus.wasSuccessful()) {
       errors.general = [createUserStatus.getMessage()];
       ctx.response.status = 302;
-      await view(ctx, "auth/sign_up.eta", { errors });
+      await view(ctx, "auth/sign_up", { errors });
       return;
     }
 
@@ -68,7 +68,7 @@ export const createUserHandler = async (ctx: Context) => {
     if (!loginStatus.wasSuccessful()) {
       errors.general = [loginStatus.getMessage()];
       ctx.response.status = 302;
-      await view(ctx, "auth/sign_up.eta", { errors });
+      await view(ctx, "auth/sign_up", { errors });
       return;
     }
   }
@@ -77,7 +77,7 @@ export const createUserHandler = async (ctx: Context) => {
 };
 
 export async function signInUserHandler(ctx: Context) {
-  await view(ctx, "auth/sign_in.eta");
+  await view(ctx, "auth/sign_in");
 }
 
 export async function authUserHandler(ctx: Context) {
