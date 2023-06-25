@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row justify-content-center pt-5">
+        <div class="col-6">
+            <h1 class="text-center">Create Listing</h1>
+            <form method="POST" action="/listing/create" class="pt-3 pb-3">
+                {{>text field='mls_number' label='MLS Number' data=data.mls_number}}
+                {{>text field='price' label='Price' data=data.price}}
+                {{>text field='name' label='Name' data=data.name}}
+                {{>text field='description' label='Description' data=data.description}}
+                {{>text field='address' label='Address' data=data.address}}
+                {{>text field='address_2' label='Address 2' data=data.address_2}}
+                {{>text field='postal_code' label='Postal Code' data=data.postal_code}}
+                {{>text field='city' label='City' data=data.city}}
+                {{>text field='province' label='Province' data=data.province}}
+                {{>text field='country' label='Country' data=data.country}}
+                <!-- change to select field -->
+                {{>text field='bedrooms' label='Bedrooms' data=data.bedrooms}}
+                <!-- change to select field -->
+                {{>text field='bathrooms' label='Bathrooms' data=data.bathrooms}}
+                {{>text field='property_type' label='Property Type' data=data.property_type}}
+                {{>text field='house_type' label='House Type' data=data.house_type}}
+                <!-- change to number field -->
+                {{>text field='stories' label='Stories' data=data.stories}}
+                {{>text field='title' label='Title' data=data.title}}
+                <!-- change to number field -->
+                {{>text field='build_year' label='Build Year' data=data.build_year}}
+                {{>text field='parking_type' label='Parking Type' data=data.parking_type}}
+                <!-- add checkbox for "Should Publish" -->
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>

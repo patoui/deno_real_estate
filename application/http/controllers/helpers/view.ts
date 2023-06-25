@@ -1,4 +1,4 @@
-import { Context, renderFile } from "../../../../deps.ts";
+import { Context } from "../../../../deps.ts";
 import resource, { ResponseInterface } from "./resource.ts";
 import { User } from "../../../../domain/user.ts";
 
@@ -33,21 +33,23 @@ class ViewResource implements ResponseInterface {
   };
 }
 
+export type ViewData = {
+  user?: User;
+  data?: { [key: string]: unknown };
+  errors?: { [key: string]: string[] };
+}
+
 export default async function view(
   ctx: Context,
   template: string,
-  data?: {
-    user?: User,
-    data?: { [key: string]: unknown },
-    errors?: { [key: string]: string[] }
-  },
+  data?: ViewData,
   status = 200,
 ): Promise<void> {
   data ??= {};
   data.user ??= (ctx.state.user ?? null);
   data.data ??= {};
   data.errors ??= {};
-  const content = await renderFile(template, data);
+  const content = await window.hb.renderView(template, data);
   if (content) {
     resource(ctx, new ViewResource(content, status));
     return;

@@ -11,7 +11,8 @@ export type {
   State
 } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 
-export { renderFile, configure } from "https://deno.land/x/eta@v2.2.0/mod.ts"
+export { Handlebars, HandlebarsJS } from "https://deno.land/x/handlebars@v0.10.0/mod.ts";
+export type { HandlebarsConfig } from "https://deno.land/x/handlebars@v0.10.0/mod.ts";
 
 export { isEmail, isInt, isFloat } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
 

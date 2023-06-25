@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <label for="{{ this.field }}" class="form-label">{{ this.label }}</label>
+    <input name="{{ this.field }}" type="text"
+        class="form-control {{#hasErrors this.field}}is-invalid{{/hasErrors}}"
+        id="{{ this.field }}" value="{{ this.data }}">
+        {{#hasErrors this.field}}
+        <div class="invalid-feedback">
+            {{#each (errors this.field)}}
+                <p class="m-0">{{ this }}</p>
+            {{/each}}
+        </div>
+        {{/hasErrors}}
+</div>

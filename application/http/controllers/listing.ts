@@ -25,7 +25,7 @@ export async function listListingHandler(ctx: Context) {
     15,
     searchListings,
   );
-  await view(ctx, "listing/list.eta", {
+  await view(ctx, "listing/list", {
     data: {
       paginatedListings,
       searchListings,
@@ -46,7 +46,7 @@ export async function showListingHandler(
   if (!listing) {
     const errors = { general: ['Listing not found'] };
     ctx.response.status = 404;
-    await view(ctx, "errors/404.eta", { errors });
+    await view(ctx, "errors/404", { errors });
     return;
   }
 
@@ -58,25 +58,25 @@ export async function showListingHandler(
     authedUserId
   );
 
-  await view(ctx, "listing/show.eta", { data: { listing, isFavourited } });
+  await view(ctx, "listing/show", { data: { listing, isFavourited } });
 }
 
 export async function showCreateListingHandler(ctx: Context) {
   const authedUser = ctx.state.user ?? null;
   if (!authedUser) {
     ctx.response.status = 401;
-    await view(ctx, "errors/401.eta");
+    await view(ctx, "errors/401");
     return;
   }
 
-  await view(ctx, "listing/create.eta");
+  await view(ctx, "listing/create");
 }
 
 export const createListingHandler = async (ctx: Context) => {
   const authedUser = ctx.state.user ?? null;
   if (!authedUser) {
     ctx.response.status = 401;
-    await view(ctx, "errors/401.eta");
+    await view(ctx, "errors/401");
     return;
   }
 
@@ -133,7 +133,7 @@ export const createListingHandler = async (ctx: Context) => {
     // Show errors on form
     errors = validator.getErrors();
     ctx.response.status = 302;
-    await view(ctx, "listing/create.eta", { data, errors });
+    await view(ctx, "listing/create", { data, errors });
     ctx.response.redirect("/listing/create");
     return;
   }
@@ -166,7 +166,7 @@ export const createListingHandler = async (ctx: Context) => {
   if (!createListingStatus.wasSuccessful()) {
     errors.general = [createListingStatus.getMessage()];
     ctx.response.status = 302;
-    await view(ctx, "listing/create.eta", { data, errors });
+    await view(ctx, "listing/create", { data, errors });
     return;
   }
 
