@@ -53,3 +53,7 @@ compile:
 
 test:
 	docker exec -it deno_test_app /bin/bash -c "deno test --allow-read --allow-net"
+
+tail:
+	$(eval ID := $(shell docker ps --filter "name=deno_test_app" -q))
+	docker logs -f ${ID}
