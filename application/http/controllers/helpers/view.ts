@@ -49,6 +49,11 @@ export default async function view(
   data.user ??= (ctx.state.user ?? null);
   data.data ??= {};
   data.errors ??= {};
+  if (! data.data.title) {
+    const parts = template.split('/');
+    const last = parts[parts.length - 1].replace(/_/g, ' ');
+    data.data.title = last.charAt(0).toUpperCase() + last.slice(1);
+  }
   const content = await window.hb.renderView(template, data);
   if (content) {
     resource(ctx, new ViewResource(content, status));
